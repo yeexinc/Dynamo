@@ -48,6 +48,19 @@ namespace Dynamo.ViewModels
 
     public partial class DynamoViewModel : ViewModelBase, IDynamoViewModel
     {
+        public int ScaleFactorLog
+        {
+            get
+            {
+                return (CurrentSpace == null) ? 0 :
+                    Convert.ToInt32(Math.Log10(CurrentSpace.ScaleFactor));
+            }
+            set
+            {
+                CurrentSpace.ScaleFactor = Math.Pow(10, value);
+            }
+        }
+
         #region properties
 
         private readonly DynamoModel model;
@@ -868,6 +881,10 @@ namespace Dynamo.ViewModels
                         this.PublishCurrentWorkspaceCommand.RaiseCanExecuteChanged();
                     RaisePropertyChanged("IsPanning");
                     RaisePropertyChanged("IsOrbiting");
+                    if (ChangeScaleFactorCommand != null)
+                    {
+                        ChangeScaleFactorCommand.RaiseCanExecuteChanged();
+                    }
                     //RaisePropertyChanged("RunEnabled");
                     break;
 
@@ -1302,6 +1319,12 @@ namespace Dynamo.ViewModels
 
         private void OpenRecent(object path)
         {
+            // Make sure user get chance to save unsaved changes first
+            if (CurrentSpaceViewModel.HasUnsavedChanges)
+            {
+                if (!AskUserToSaveWorkspaceOrCancel(HomeSpace))
+                    return;
+            }
             this.Open(path as string);
         }
 
@@ -1413,6 +1436,11 @@ namespace Dynamo.ViewModels
             return true;
         }
 
+        internal bool ChangeScaleFactorEnabled
+        {
+            get { return !ShowStartPage; }
+        }
+
         internal void ShowPackageManagerSearch(object parameters)
         {
             OnRequestPackageManagerSearchDialog(this, EventArgs.Empty);
@@ -1489,7 +1517,7 @@ namespace Dynamo.ViewModels
         {
             WorkspaceViewModel wvm = this.CurrentSpaceViewModel;
 
-            if (wvm.IsConnecting && (node == wvm.ActiveConnector.ActiveStartPort.Owner))
+            if (wvm.IsConnecting && (node == wvm.FirstActiveConnector.ActiveStartPort.Owner))
                 wvm.CancelActiveState();
         }
 
@@ -2046,6 +2074,16 @@ namespace Dynamo.ViewModels
         }
 
         internal bool CanGoToSourceCode(object parameter)
+        {
+            return true;
+        }
+
+        public void GoToDictionary(object parameter)
+        {
+            Process.Start(Configurations.DynamoDictionary);
+        }
+
+        internal bool CanGoToDictionary(object parameter)
         {
             return true;
         }
