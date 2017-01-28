@@ -10,6 +10,6 @@
              d:DesignWidth="300">
     <Grid>
         <cefwpf:ChromiumWebBrowser x:Name="webBrowser"
-                                   Address="https://www.google.com" />
+                                   Address="http://localhost:3456/" />
     </Grid>
 </UserControl>
