@@ -44,6 +44,7 @@ using System.Windows.Threading;
 using HelixToolkit.Wpf.SharpDX;
 using ResourceNames = Dynamo.Wpf.Interfaces.ResourceNames;
 using String = System.String;
+using System.Reflection;
 
 namespace Dynamo.Controls
 {
@@ -504,11 +505,29 @@ namespace Dynamo.Controls
 #endif
             #region Search initialization
 
+#if LEGACY_LIBRARY_VIEW
+
             var search = new SearchView(
                 dynamoViewModel.SearchViewModel,
                 dynamoViewModel);
             sidebarGrid.Children.Add(search);
             dynamoViewModel.SearchViewModel.Visible = true;
+
+#else
+
+            try
+            {
+                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var assembly = Assembly.LoadFrom(Path.Combine(dir, "HostedContents.dll"));
+                var result = assembly.CreateInstance("Dynamo.HostedContents.LibraryContainer");
+                sidebarGrid.Children.Add(result as UserControl);
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+#endif
 
             #endregion
 
