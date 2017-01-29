@@ -45,6 +45,15 @@ namespace Dynamo.HostedContents
 
         #endregion
 
+        #region Gateway Methods: from JavaScript to .NET (public methods)
+
+        public string GetTypeNamesJson()
+        {
+            return "WOOOOHOOO!!!";
+        }
+
+        #endregion
+
         #region Event Handlers
 
         private void OnWebBrowserFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
