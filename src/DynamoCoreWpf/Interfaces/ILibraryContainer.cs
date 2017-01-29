@@ -18,10 +18,10 @@ namespace Dynamo.Wpf.Interfaces
         event EventHandler WebBrowserLoaded;
 
         /// <summary>
-        /// Dynamo view calls this method to pass on loaded types to the library 
-        /// container control.
+        /// Dynamo calls this method to set the loaded types in hierarchical Json format.
         /// </summary>
-        /// <param name="typeNames">A list of type names to show.</param>
-        void OnLibraryDataPopulated(IEnumerable<string> typeNames);
+        /// <param name="loadedTypesJson">The loaded types in hierarchical Json format.
+        /// </param>
+        void SetLoadedTypesJson(string loadedTypesJson);
     }
 }

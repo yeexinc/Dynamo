@@ -46,6 +46,7 @@ using ResourceNames = Dynamo.Wpf.Interfaces.ResourceNames;
 using String = System.String;
 using System.Reflection;
 using Dynamo.Wpf.Interfaces;
+using System.Text;
 
 namespace Dynamo.Controls
 {
@@ -524,22 +525,25 @@ namespace Dynamo.Controls
                 var result = assembly.CreateInstance("Dynamo.HostedContents.LibraryContainer");
                 sidebarGrid.Children.Add(result as UserControl);
 
+                var loadedTypesJson = new StringBuilder("{ childNodes: [");
+                foreach (var entry in dynamoViewModel.Model.SearchModel.SearchEntries)
+                {
+                    loadedTypesJson.Append(string.Format(" { name: '{0}' },", entry.Name));
+                }
+
+                loadedTypesJson.Remove(loadedTypesJson.Length - 1, 1);
+                loadedTypesJson.Append("] }");
+
                 libraryContainer = result as ILibraryContainer;
+                libraryContainer.SetLoadedTypesJson(loadedTypesJson.ToString());
                 libraryContainer.WebBrowserLoaded += (object senderObject, EventArgs eventArgs) =>
                 {
-                    var entries = new List<string>();
-                    foreach (var entry in dynamoViewModel.Model.SearchModel.SearchEntries)
-                    {
-                        entries.Add(entry.Name);
-                    }
-
-                    libraryContainer.OnLibraryDataPopulated(entries);
+                    // Does nothing for now.
                 };
             }
             catch (Exception ex)
             {
             }
-
 
 #endif
 

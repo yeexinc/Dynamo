@@ -13,6 +13,7 @@ namespace Dynamo.HostedContents
     public partial class LibraryContainer : UserControl, ILibraryContainer
     {
         private bool browserLoaded = false;
+        private string loadedTypesJson = String.Empty;
 
         public LibraryContainer()
         {
@@ -25,31 +26,18 @@ namespace Dynamo.HostedContents
 
         public event EventHandler WebBrowserLoaded;
 
-        public void OnLibraryDataPopulated(IEnumerable<string> typeNames)
+        public void SetLoadedTypesJson(string loadedTypesJson)
         {
-            if (!browserLoaded) return; // Not ready for call right now.
-            SetTypeNames(typeNames);
-        }
-
-        #endregion
-
-        #region Gateway Methods: from .NET to JavaScript (private methods)
-
-        private void SetTypeNames(IEnumerable<string> typeNames)
-        {
-            var mainFrame = webBrowser.GetMainFrame();
-            if (mainFrame == null) return;
-
-            mainFrame.ExecuteJavaScriptAsync(@"sendAlertNative('Hahaha');");
+            this.loadedTypesJson = loadedTypesJson;
         }
 
         #endregion
 
         #region Gateway Methods: from JavaScript to .NET (public methods)
 
-        public string GetTypeNamesJson()
+        public string GetLoadedTypesJson()
         {
-            return "WOOOOHOOO!!!";
+            return loadedTypesJson;
         }
 
         #endregion
