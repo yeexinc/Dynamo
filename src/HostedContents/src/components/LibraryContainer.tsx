@@ -12,7 +12,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
             const childNodes = rootNode.childNodes;
             const listItems = childNodes.map((childNode : any) => 
-                <LibraryItem displayText={ childNode.name } iconPath={ "src/components/icon.png" } />
+                <LibraryItem displayText={ childNode.name } iconPath={ childNode.iconName } />
             );
 
             return (<div>{ listItems }</div>);
