@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LibraryCategory, LibraryGroup } from "./LibraryStyles";
+import { LibraryItem } from "./LibraryItem";
 
 declare var boundContainer: any;
 
@@ -12,7 +12,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
             const childNodes = rootNode.childNodes;
             const listItems = childNodes.map((childNode : any) => 
-                <div style={ LibraryCategory } >{ childNode.name }</div>
+                <LibraryItem displayText={ childNode.name } iconPath={ "src/components/icon.png" } />
             );
 
             return (<div>{ listItems }</div>);
