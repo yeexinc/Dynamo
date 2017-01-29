@@ -1,0 +1,8 @@
+
+export const LibraryCategory = {
+    color: '#989898'
+};
+
+export const LibraryGroup = {
+    color: '#BDBDBD'
+};
