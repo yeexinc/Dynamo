@@ -45,6 +45,7 @@ using HelixToolkit.Wpf.SharpDX;
 using ResourceNames = Dynamo.Wpf.Interfaces.ResourceNames;
 using String = System.String;
 using System.Reflection;
+using Dynamo.Wpf.Interfaces;
 
 namespace Dynamo.Controls
 {
@@ -67,6 +68,7 @@ namespace Dynamo.Controls
         private readonly LoginService loginService;
         internal ViewExtensionManager viewExtensionManager = new ViewExtensionManager();
         private ShortcutToolbar shortcutBar;
+        private ILibraryContainer libraryContainer;
 
         // This is to identify whether the PerformShutdownSequenceOnViewModel() method has been
         // called on the view model and the process is not cancelled
@@ -521,6 +523,18 @@ namespace Dynamo.Controls
                 var assembly = Assembly.LoadFrom(Path.Combine(dir, "HostedContents.dll"));
                 var result = assembly.CreateInstance("Dynamo.HostedContents.LibraryContainer");
                 sidebarGrid.Children.Add(result as UserControl);
+
+                libraryContainer = result as ILibraryContainer;
+                libraryContainer.WebBrowserLoaded += (object senderObject, EventArgs eventArgs) =>
+                {
+                    var entries = new List<string>();
+                    foreach (var entry in dynamoViewModel.Model.SearchModel.SearchEntries)
+                    {
+                        entries.Add(entry.Name);
+                    }
+
+                    libraryContainer.OnLibraryDataPopulated(entries);
+                };
             }
             catch (Exception ex)
             {
