@@ -1,0 +1,25 @@
+
+.LibraryItemContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.LibraryItemHeader {
+    display: 'flex';
+    flex-direction: 'row';
+    align-items: 'center';
+    padding: 3;
+}
+
+.LibraryItemIcon {
+    margin: 4;
+}
+
+.LibraryItemText {
+    color: '#989898';
+    margin: 2;
+}
+
+.LibraryGroup {
+    color: '#BDBDBD';
+}

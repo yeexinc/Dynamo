@@ -1,5 +1,22 @@
+/*
+      LibraryItemContainer
+    +---------------------------------------------------+
+    |   LibraryItemHeader                               |
+    | +-----------------------------------------------+ |
+    | | +-----------------+ +-----------------------+ | |
+    | | | LibraryItemIcon | | LibraryItemText       | | |
+    | | +-----------------+ +-----------------------+ | |
+    | +-----------------------------------------------+ |
+    |   LibraryItemBody                                 |
+    | +-----------------------------------------------+ |
+    | |                                               | |
+    | |                                               | |
+    | +-----------------------------------------------+ |
+    +---------------------------------------------------+
+
+*/
+
 import * as React from "react";
-import { LibraryItemContainer, LibraryItemIcon, LibraryCategory } from "./LibraryStyles";
 
 export interface LibraryItemProps { iconPath: string, displayText: string }
 
@@ -8,9 +25,13 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
 
         var iconPath = "/src/resources/icons/" + this.props.iconPath + ".Small.png";
 
-        return (<div style={ LibraryItemContainer }>
-            <img src={ iconPath } style={ LibraryItemIcon } />
-            <div style={ LibraryCategory }>{ this.props.displayText }</div>
-        </div>);
+        return (
+            <div className={ "LibraryItemContainer" }>
+                <div className={ "LibraryItemHeader" }>
+                    <img src={ iconPath } className={ "LibraryItemIcon" } />
+                    <div className={ "LibraryItemText" }>{ this.props.displayText }</div>
+                </div>
+            </div>
+        );
     }
 }
