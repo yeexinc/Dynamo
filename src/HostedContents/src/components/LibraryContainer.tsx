@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LibraryItem } from "./LibraryItem";
+import { LibraryItem, ItemData } from "./LibraryItem";
 
 let itemSchema = 
 {
@@ -49,9 +49,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
         try {
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
             const childItems = rootNode.childItems;
-            const listItems = childItems.map((item : any) => 
-                <LibraryItem displayText={ item.text } iconPath={ item.iconName } />
-            );
+            const listItems = childItems.map((item : ItemData) => (<LibraryItem data={ item } />));
 
             return (<div>{ listItems }</div>);
         }
