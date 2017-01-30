@@ -31,7 +31,20 @@ export interface LibraryItemProps { data: ItemData }
 export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
     render() {
 
-        var iconPath = "/src/resources/icons/" + this.props.data.iconName + ".Small.png";
+        let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".Small.png";
+
+        let nestedElements = null;
+        if (this.props.data.childItems) {
+            nestedElements = (
+                <div className={ "LibraryItemBody" }>
+                {
+                    this.props.data.childItems.map((item: ItemData) => {
+                        return (<LibraryItem data={ item } />);
+                    })
+                }
+                </div>
+            );
+        }
 
         return (
             <div className={ "LibraryItemContainer" }>
@@ -39,6 +52,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
                     <img className={ "LibraryItemIcon" } src={ iconPath } />
                     <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
                 </div>
+                { nestedElements }
             </div>
         );
     }

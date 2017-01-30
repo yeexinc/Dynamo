@@ -11,6 +11,12 @@
     padding: 3;
 }
 
+.LibraryItemBody {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 .LibraryItemIcon {
     margin: 4;
 }
