@@ -1,9 +1,34 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Dynamo.Wpf.Interfaces
 {
+    [DataContract]
+    class ItemData
+    {
+        internal ItemData()
+        {
+            childItems = new List<ItemData>();
+        }
+
+        [DataMember]
+        internal string text;
+
+        [DataMember]
+        internal string iconName;
+
+        [DataMember]
+        internal bool expanded;
+
+        [DataMember]
+        internal string itemType;
+
+        [DataMember(Name="childItems")]
+        internal List<ItemData> childItems;
+    }
+
     /// <summary>
     /// An interface to be implemented by the actual library container control. Through
     /// the implementation of this interface, Dynamo view interacts with the underlying
