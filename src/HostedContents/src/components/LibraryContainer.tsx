@@ -6,7 +6,7 @@ let itemSchema =
     text: "Geometry",
     iconName: "GeometryCategory.png",
     expanded: true,
-    itemTyep: "category",
+    itemType: "category",
     childItems: [
         {
             text: "Abstract", // Group

@@ -21,10 +21,12 @@ using Dynamo.Wpf;
 using Dynamo.Wpf.Authentication;
 using Dynamo.Wpf.Controls;
 using Dynamo.Wpf.Extensions;
+using Dynamo.Wpf.Interfaces;
 using Dynamo.Wpf.Utilities;
 using Dynamo.Wpf.ViewModels.Core;
 using Dynamo.Wpf.Views.Gallery;
 using Dynamo.Wpf.Views.PackageManager;
+using HelixToolkit.Wpf.SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -32,6 +34,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -41,12 +45,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using HelixToolkit.Wpf.SharpDX;
 using ResourceNames = Dynamo.Wpf.Interfaces.ResourceNames;
 using String = System.String;
-using System.Reflection;
-using Dynamo.Wpf.Interfaces;
-using System.Text;
 
 namespace Dynamo.Controls
 {
@@ -520,23 +520,52 @@ namespace Dynamo.Controls
 
             try
             {
+                var geometryRoot = new ItemData();
+                geometryRoot.text = "Geometry";
+                geometryRoot.iconName = "test.png";
+                geometryRoot.expanded = true;
+                geometryRoot.itemType = "category";
+
+                var rootNode = new ItemData();
+                rootNode.childItems.Add(geometryRoot);
+
                 var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var assembly = Assembly.LoadFrom(Path.Combine(dir, "HostedContents.dll"));
                 var result = assembly.CreateInstance("Dynamo.HostedContents.LibraryContainer");
                 sidebarGrid.Children.Add(result as UserControl);
 
-                var loadedTypesJson = new StringBuilder("{ \"childItems\": [");
+                ItemData classItemData = null;
                 foreach (var entry in dynamoViewModel.Model.SearchModel.SearchEntries)
                 {
-                    loadedTypesJson.Append(string.Format(" {{ \"text\": \"{0}\", \"iconName\": \"{1}\" }},",
-                        entry.Name, entry.IconName));
+                    if (!entry.IconName.StartsWith("Autodesk.DesignScript.Geometry.")) continue;
+
+                    var parts = entry.IconName.Split('.');
+                    if ((classItemData == null) || !classItemData.text.Equals(parts[3]))
+                    {
+                        classItemData = new ItemData();
+                        classItemData.text = parts[3];
+                        classItemData.iconName = parts[3];
+                        classItemData.expanded = true;
+                        classItemData.itemType = "none";
+                        geometryRoot.childItems.Add(classItemData);
+                    }
+
+                    var methodItemData = new ItemData();
+                    methodItemData.text = parts[4];
+                    methodItemData.iconName = entry.IconName;
+                    methodItemData.expanded = false;
+                    methodItemData.itemType = "none";
+                    classItemData.childItems.Add(methodItemData);
                 }
 
-                loadedTypesJson.Remove(loadedTypesJson.Length - 1, 1);
-                loadedTypesJson.Append("] }");
+                var outputStream = new MemoryStream();
+                var serializer = new DataContractJsonSerializer(typeof(ItemData));
+                serializer.WriteObject(outputStream, rootNode);
+                outputStream.Position = 0;
+                var inputStream = new StreamReader(outputStream);
 
                 libraryContainer = result as ILibraryContainer;
-                libraryContainer.SetLoadedTypesJson(loadedTypesJson.ToString());
+                libraryContainer.SetLoadedTypesJson(inputStream.ReadToEnd());
                 libraryContainer.WebBrowserLoaded += (object senderObject, EventArgs eventArgs) =>
                 {
                     // Does nothing for now.
