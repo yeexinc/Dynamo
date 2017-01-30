@@ -525,10 +525,10 @@ namespace Dynamo.Controls
                 var result = assembly.CreateInstance("Dynamo.HostedContents.LibraryContainer");
                 sidebarGrid.Children.Add(result as UserControl);
 
-                var loadedTypesJson = new StringBuilder("{ \"childNodes\": [");
+                var loadedTypesJson = new StringBuilder("{ \"childItems\": [");
                 foreach (var entry in dynamoViewModel.Model.SearchModel.SearchEntries)
                 {
-                    loadedTypesJson.Append(string.Format(" {{ \"name\": \"{0}\", \"iconName\": \"{1}\" }},",
+                    loadedTypesJson.Append(string.Format(" {{ \"text\": \"{0}\", \"iconName\": \"{1}\" }},",
                         entry.Name, entry.IconName));
                 }
 

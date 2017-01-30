@@ -48,9 +48,9 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
 
         try {
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
-            const childNodes = rootNode.childNodes;
-            const listItems = childNodes.map((childNode : any) => 
-                <LibraryItem displayText={ childNode.name } iconPath={ childNode.iconName } />
+            const childItems = rootNode.childItems;
+            const listItems = childItems.map((item : any) => 
+                <LibraryItem displayText={ item.text } iconPath={ item.iconName } />
             );
 
             return (<div>{ listItems }</div>);
