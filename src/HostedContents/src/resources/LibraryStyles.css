@@ -5,9 +5,9 @@
 }
 
 .LibraryItemHeader {
-    display: 'flex';
-    flex-direction: 'row';
-    align-items: 'center';
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 3;
 }
 
@@ -16,10 +16,6 @@
 }
 
 .LibraryItemText {
-    color: '#989898';
+    color: #989898;
     margin: 2;
-}
-
-.LibraryGroup {
-    color: '#BDBDBD';
 }
