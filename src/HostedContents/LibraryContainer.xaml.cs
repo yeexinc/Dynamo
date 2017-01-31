@@ -18,8 +18,15 @@ namespace Dynamo.HostedContents
         public LibraryContainer()
         {
             InitializeComponent();
+
+            refreshButton.Click += (sender, e) => webBrowser.Reload(true); // Force refresh.
             webBrowser.RegisterJsObject("boundContainer", this);
             webBrowser.FrameLoadEnd += OnWebBrowserFrameLoadEnd;
+        }
+
+        private void RefreshButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #region Public ILibraryContainer Members

@@ -9,7 +9,15 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <cefwpf:ChromiumWebBrowser x:Name="webBrowser"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button x:Name="refreshButton"
+                Padding="5"
+                Margin="5">Refresh library view</Button>
+        <cefwpf:ChromiumWebBrowser Grid.Row="1"
+                                   x:Name="webBrowser"
                                    Address="http://localhost:3456/" />
     </Grid>
 </UserControl>
