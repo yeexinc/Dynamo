@@ -24,6 +24,10 @@
     padding: 3;
 }
 
+.LibraryItemHeader:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .LibraryItemBody {
     display: flex;
     flex-direction: column;
@@ -48,7 +52,7 @@
     display: flex;
     width: 48px;
     min-width: 48px;
-    margin: 6px;
+    margin: 6px 0px 6px 0px;
     border-right: 2px;
     border-right-style: solid;
     justify-content: flex-end;
