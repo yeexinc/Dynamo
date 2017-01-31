@@ -17,13 +17,14 @@
 */
 
 import * as React from "react";
+import { ClusterView } from "./ClusterView";
 
 export class ItemData {
     text: string;
     iconName: string;
     expanded: boolean;
     itemType: string;
-    childItems: any;
+    childItems: ItemData[];
 }
 
 export interface LibraryItemProps { data: ItemData }
@@ -34,7 +35,16 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
 
         let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".Small.png";
 
-        let nestedElements = this.getNestedElements();
+        let nestedElements = null;
+        if (this.props.data.childItems) {
+            if (this.props.data.childItems.some(this.isLeafItem)) {
+                // There are some leaf nodes (e.g. methods).
+                nestedElements = this.getClusteredElements();
+            } else {
+                // There are intermediate child items.
+                nestedElements = this.getNestedElements();
+            }
+        }
 
         return (
             <div className={ this.getLibraryItemContainerStyle() }>
@@ -47,7 +57,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
         );
     }
 
-    getLibraryItemContainerStyle() {
+    getLibraryItemContainerStyle(): string {
 
         switch(this.props.data.itemType) {
             case "category":
@@ -66,21 +76,53 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
         return "LibraryItemContainerNone";
     }
 
-    getNestedElements() {
+    getNestedElements(): any {
 
-        let nestedElements = null;
-        if (this.props.data.childItems) {
-            nestedElements = (
-                <div className={ "LibraryItemBody" }>
-                {
-                    this.props.data.childItems.map((item: ItemData) => {
-                        return (<LibraryItem data={ item } />);
-                    })
-                }
-                </div>
-            );
+        return (
+            <div className={ "LibraryItemBody" }>
+            {
+                this.props.data.childItems.map((item: ItemData) => {
+                    return (<LibraryItem data={ item } />);
+                })
+            }
+            </div>
+        );
+    }
+
+    getClusteredElements(): any {
+        
+        let items = this.props.data.childItems;
+        let creationMethods = items.filter((item: ItemData) => item.itemType == "creation");
+        let actionMethods = items.filter((item: ItemData) => item.itemType == "action");
+        let queryMethods = items.filter((item: ItemData) => item.itemType == "query");
+
+        let creationCluster = null;
+        if (creationMethods.length > 0) {
+            creationCluster = (<ClusterView iconPath="" childItems={ creationMethods } />);
         }
 
-        return nestedElements;
+        let actionCluster = null;
+        if (actionMethods.length > 0) {
+            actionCluster = (<ClusterView iconPath="" childItems={ actionMethods } />);
+        }
+
+        let queryCluster = null;
+        if (queryMethods.length > 0) {
+            queryCluster = (<ClusterView iconPath="" childItems={ queryMethods } />);
+        }
+
+        return (
+            <div className={ "LibraryItemBody" }>
+                { creationCluster }
+                { actionCluster }
+                { queryCluster }
+            </div>
+        );
+    }
+
+    isLeafItem(item: ItemData): boolean {
+        return ((item.itemType == "creation") || 
+                (item.itemType == "action") ||
+                (item.itemType == "query"));
     }
 }
