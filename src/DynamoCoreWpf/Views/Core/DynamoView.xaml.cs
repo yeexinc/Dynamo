@@ -11,6 +11,7 @@ using Dynamo.Nodes.Prompts;
 using Dynamo.PackageManager;
 using Dynamo.PackageManager.UI;
 using Dynamo.Search;
+using Dynamo.Search.SearchElements;
 using Dynamo.Selection;
 using Dynamo.Services;
 using Dynamo.UI.Controls;
@@ -550,11 +551,23 @@ namespace Dynamo.Controls
                         geometryRoot.childItems.Add(classItemData);
                     }
 
+                    var itemType = "none";
+                    var element = entry as NodeSearchElement;
+                    if (element != null)
+                    {
+                        switch (element.Group)
+                        {
+                            case SearchElementGroup.Create: itemType = "creation"; break;
+                            case SearchElementGroup.Action: itemType = "action"; break;
+                            case SearchElementGroup.Query: itemType = "query"; break;
+                        }
+                    }
+
                     var methodItemData = new ItemData();
                     methodItemData.text = parts[4];
                     methodItemData.iconName = entry.IconName;
                     methodItemData.expanded = false;
-                    methodItemData.itemType = "none";
+                    methodItemData.itemType = itemType;
                     classItemData.childItems.Add(methodItemData);
                 }
 

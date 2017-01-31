@@ -24,13 +24,13 @@ let itemSchema =
                             text: "ByCorners", // Method
                             iconName: "Autodesk.DesignScript.Geometry.BoundingBox.ByCorners.png",
                             expanded: false,
-                            itemType: "none"
+                            itemType: "none|creation|action|query"
                         },
                         {
                             text: "Intersects", // Method
                             iconName: "Autodesk.DesignScript.Geometry.BoundingBox.Intersects.png",
                             expanded: false,
-                            itemType: "none"
+                            itemType: "none|creation|action|query"
                         },
                     ]
                 },
