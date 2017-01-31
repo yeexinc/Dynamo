@@ -523,7 +523,7 @@ namespace Dynamo.Controls
             {
                 var geometryRoot = new ItemData();
                 geometryRoot.text = "Geometry";
-                geometryRoot.iconName = "test.png";
+                geometryRoot.iconName = "Geometry";
                 geometryRoot.expanded = true;
                 geometryRoot.itemType = "category";
 

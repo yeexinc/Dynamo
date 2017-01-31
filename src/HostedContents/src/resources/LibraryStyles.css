@@ -22,10 +22,12 @@
     flex-direction: row;
     align-items: center;
     padding: 3;
+    color: #989898;
 }
 
 .LibraryItemHeader:hover {
-    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .LibraryItemBody {
@@ -39,7 +41,6 @@
 }
 
 .LibraryItemText {
-    color: #989898;
     margin: 2;
 }
 
@@ -50,8 +51,8 @@
 
 .ClusterLeftPane {
     display: flex;
-    width: 48px;
-    min-width: 48px;
+    width: 64px;
+    min-width: 64px;
     margin: 6px 0px 6px 0px;
     border-right: 2px;
     border-right-style: solid;

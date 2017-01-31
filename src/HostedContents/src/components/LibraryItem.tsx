@@ -28,27 +28,37 @@ export class ItemData {
 }
 
 export interface LibraryItemProps { data: ItemData }
+export interface LibraryItemState { expanded: boolean }
 
-export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
+export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemState> {
+
+    constructor(props: LibraryItemProps) {
+        super(props);
+        this.state = { expanded: true }; // Assign initial state
+    }
 
     render() {
 
         let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".png";
 
         let nestedElements = null;
-        if (this.props.data.childItems) {
-            if (this.props.data.childItems.some(this.isLeafItem)) {
-                // There are some leaf nodes (e.g. methods).
-                nestedElements = this.getClusteredElements();
-            } else {
-                // There are intermediate child items.
-                nestedElements = this.getNestedElements();
+
+        if (this.state.expanded) // Show only nested elements when expanded.
+        {
+            if (this.props.data.childItems) {
+                if (this.props.data.childItems.some(this.isLeafItem)) {
+                    // There are some leaf nodes (e.g. methods).
+                    nestedElements = this.getClusteredElements();
+                } else {
+                    // There are intermediate child items.
+                    nestedElements = this.getNestedElements();
+                }
             }
-        }
+        }        
 
         return (
             <div className={ this.getLibraryItemContainerStyle() }>
-                <div className={ "LibraryItemHeader" }>
+                <div className={ "LibraryItemHeader" } onClick={ this.onLibraryItemClicked } >
                     <img className={ "LibraryItemIcon" } src={ iconPath } />
                     <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
                 </div>
@@ -133,5 +143,12 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
         return ((item.itemType == "creation") || 
                 (item.itemType == "action") ||
                 (item.itemType == "query"));
+    }
+
+    onLibraryItemClicked() {
+
+        // Toggle expansion state.
+        let currentlyExpanded = this.state.expanded;
+        this.setState({ expanded: !currentlyExpanded });
     }
 }
