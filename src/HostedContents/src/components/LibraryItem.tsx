@@ -33,7 +33,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
 
     render() {
 
-        let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".Small.png";
+        let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".png";
 
         let nestedElements = null;
         if (this.props.data.childItems) {
