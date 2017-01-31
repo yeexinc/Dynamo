@@ -98,17 +98,23 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
 
         let creationCluster = null;
         if (creationMethods.length > 0) {
-            creationCluster = (<ClusterView iconPath="" childItems={ creationMethods } />);
+            creationCluster = (<ClusterView
+                iconPath="src/resources/icons/library-creation.png"
+                childItems={ creationMethods } />);
         }
 
         let actionCluster = null;
         if (actionMethods.length > 0) {
-            actionCluster = (<ClusterView iconPath="" childItems={ actionMethods } />);
+            actionCluster = (<ClusterView
+                iconPath="src/resources/icons/library-action.png"
+                childItems={ actionMethods } />);
         }
 
         let queryCluster = null;
         if (queryMethods.length > 0) {
-            queryCluster = (<ClusterView iconPath="" childItems={ queryMethods } />);
+            queryCluster = (<ClusterView
+                iconPath="src/resources/icons/library-query.png"
+                childItems={ queryMethods } />);
         }
 
         return (

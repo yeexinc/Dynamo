@@ -28,9 +28,7 @@ export class ClusterView extends React.Component<ClusterViewProps, undefined> {
         return (
             <div className={ "ClusterViewContainer" }>
                 <div className={ "ClusterLeftPane" }>
-                    <div className={ "ClusterIcon" }>
-                        test
-                    </div>
+                    <img className={ "ClusterIcon" } src={ this.props.iconPath } />
                 </div>
                 <div className={ "ClusterRightPane" }>
                     { this.getNestedElements() }

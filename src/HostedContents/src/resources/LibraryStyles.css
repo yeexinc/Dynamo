@@ -31,7 +31,7 @@
 }
 
 .LibraryItemIcon {
-    margin: 4;
+    padding: 6px;
 }
 
 .LibraryItemText {
@@ -45,16 +45,24 @@
 }
 
 .ClusterLeftPane {
+    display: flex;
     width: 48px;
     min-width: 48px;
-    background: deepskyblue;
+    margin: 6px;
+    border-right: 2px;
+    border-right-style: solid;
+    border-right-color: greenyellow;
+    justify-content: flex-end;
 }
 
 .ClusterRightPane {
     flex-grow: 2;
+    margin: 6px;
     background: lightgreen;
 }
 
 .ClusterIcon {
-    background: hotpink;
+    width: 32px;
+    height: 32px;
+    margin: 6px;
 }
