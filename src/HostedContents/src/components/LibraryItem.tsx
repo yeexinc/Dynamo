@@ -1,5 +1,5 @@
 /*
-      LibraryItemContainer
+      LibraryItemContainerXxx(Category/Group/None)
     +---------------------------------------------------+
     |   LibraryItemHeader                               |
     | +-----------------------------------------------+ |
@@ -29,9 +29,44 @@ export class ItemData {
 export interface LibraryItemProps { data: ItemData }
 
 export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
+
     render() {
 
         let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".Small.png";
+
+        let nestedElements = this.getNestedElements();
+
+        return (
+            <div className={ this.getLibraryItemContainerStyle() }>
+                <div className={ "LibraryItemHeader" }>
+                    <img className={ "LibraryItemIcon" } src={ iconPath } />
+                    <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
+                </div>
+                { nestedElements }
+            </div>
+        );
+    }
+
+    getLibraryItemContainerStyle() {
+
+        switch(this.props.data.itemType) {
+            case "category":
+                return "LibraryItemContainerCategory";
+
+            case "group":
+                return "LibraryItemContainerGroup";
+
+            case "none":
+            case "creation":
+            case "action":
+            case "query":
+                return "LibraryItemContainerNone";
+        }
+
+        return "LibraryItemContainerNone";
+    }
+
+    getNestedElements() {
 
         let nestedElements = null;
         if (this.props.data.childItems) {
@@ -46,14 +81,6 @@ export class LibraryItem extends React.Component<LibraryItemProps, undefined> {
             );
         }
 
-        return (
-            <div className={ "LibraryItemContainer" }>
-                <div className={ "LibraryItemHeader" }>
-                    <img className={ "LibraryItemIcon" } src={ iconPath } />
-                    <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
-                </div>
-                { nestedElements }
-            </div>
-        );
+        return nestedElements;
     }
 }

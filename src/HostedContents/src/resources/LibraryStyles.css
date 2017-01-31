@@ -1,7 +1,20 @@
 
-.LibraryItemContainer {
+.LibraryItemContainerCategory {
     display: flex;
     flex-direction: column;
+    background: #353535;
+}
+
+.LibraryItemContainerGroup {
+    display: flex;
+    flex-direction: column;
+    background: #414141;
+}
+
+.LibraryItemContainerNone {
+    display: flex;
+    flex-direction: column;
+    background: #414141;
 }
 
 .LibraryItemHeader {
