@@ -38,3 +38,22 @@
     color: #989898;
     margin: 2;
 }
+
+.ClusterViewContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.ClusterLeftPane {
+    width: 48px;
+    background: deepskyblue;
+}
+
+.ClusterRightPane {
+    flex-grow: 2;
+    background: lightgreen;
+}
+
+.ClusterIcon {
+    background: hotpink;
+}
