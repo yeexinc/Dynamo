@@ -524,7 +524,6 @@ namespace Dynamo.Controls
                 var geometryRoot = new ItemData();
                 geometryRoot.text = "Geometry";
                 geometryRoot.iconName = "Geometry";
-                geometryRoot.expanded = true;
                 geometryRoot.itemType = "category";
 
                 var rootNode = new ItemData();
@@ -546,7 +545,6 @@ namespace Dynamo.Controls
                         classItemData = new ItemData();
                         classItemData.text = parts[3];
                         classItemData.iconName = parts[3];
-                        classItemData.expanded = true;
                         classItemData.itemType = "none";
                         geometryRoot.childItems.Add(classItemData);
                     }
@@ -566,7 +564,6 @@ namespace Dynamo.Controls
                     var methodItemData = new ItemData();
                     methodItemData.text = parts[4];
                     methodItemData.iconName = entry.IconName;
-                    methodItemData.expanded = false;
                     methodItemData.itemType = itemType;
                     classItemData.childItems.Add(methodItemData);
                 }

@@ -20,9 +20,6 @@ namespace Dynamo.Wpf.Interfaces
         internal string iconName;
 
         [DataMember]
-        internal bool expanded;
-
-        [DataMember]
         internal string itemType;
 
         [DataMember(Name="childItems")]
