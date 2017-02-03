@@ -34,7 +34,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
     constructor(props: LibraryItemProps) {
         super(props);
-        this.state = { expanded: true }; // Assign initial state
+        this.state = { expanded: false }; // Assign initial state
     }
 
     render() {
@@ -58,7 +58,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
         return (
             <div className={ this.getLibraryItemContainerStyle() }>
-                <div className={ "LibraryItemHeader" } onClick={ this.onLibraryItemClicked } >
+                <div className={ "LibraryItemHeader" } onClick={ this.onLibraryItemClicked.bind(this) } >
                     <img className={ "LibraryItemIcon" } src={ iconPath } />
                     <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
                 </div>
