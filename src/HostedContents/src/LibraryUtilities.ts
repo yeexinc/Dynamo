@@ -48,11 +48,57 @@ class LibraryItem {
     }
 }
 
-function getTypeTreeNodeFromPath(
+/**
+ * Given a type tree and a path, locate the corresponding type tree node.
+ * 
+ * @param {TypeTreeNode[]} typeTreeNode
+ * The type tree from which a particular TypeTreeNode is to be retrieved.
+ * An example of the type tree is as followed:
+ * 
+ * {
+ *   text: "DesignScript",
+ *   childNodes: [
+ *     {
+ *       text: "Geometry",
+ *       childNodes: [
+ *         {
+ *           text: "Arc",
+ *           childNodes: []
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ * 
+ * @param {string[]} parts
+ * The parts of a path to help locate a given TypeTreeNode. For example, 
+ * a type with name "DesignScript.Geometry.Arc" can be broken down into 
+ * ["Geometry", "DesignScript", "Arc"], and it will locate the TypeTreeNode
+ * "Arc" as outlined in the example above.
+ * 
+ * @returns {TypeTreeNode}
+ * Returns a TypeTreeNode if one is found, or null otherwise.
+ */
+function getTypeTreeNodeFromParts(
     typeTreeNodes: TypeTreeNode[],
-    path: string): TypeTreeNode
+    parts: string[]): TypeTreeNode
 {
-    return null;
+    // Search for the root node with matching text.
+    let node: TypeTreeNode = null;
+    for (let i = 0; i < typeTreeNodes.length; i++) {
+        let typeTreeNode = typeTreeNodes[i];
+        if (typeTreeNode.text == parts[0]) {
+            node = typeTreeNode;
+            break;
+        }
+    }
+
+    if (!node || (parts.length <= 1)) { // Look no further.
+        return node;
+    }
+
+    // Remove the first part and continue.
+    return getTypeTreeNodeFromParts(node.childNodes, parts.slice(1));
 }
 
 /**
@@ -106,8 +152,8 @@ function constructLibraryItem(
 
     // This layout element may or may not have any included path.
     for (let i = 0; i < layoutElement.include.length; i++) {
-        let path = layoutElement.include[i];
-        let typeTreeNode = getTypeTreeNodeFromPath(typeTreeNodes, path);
+        let parts = layoutElement.include[i].split(".");
+        let typeTreeNode = getTypeTreeNodeFromParts(typeTreeNodes, parts);
         mergeTypeNodeUnderLibraryItem(typeTreeNode, result);
     }
 
