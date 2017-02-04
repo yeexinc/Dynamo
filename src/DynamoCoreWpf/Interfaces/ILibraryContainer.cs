@@ -45,5 +45,7 @@ namespace Dynamo.Wpf.Interfaces
         /// <param name="loadedTypesJson">The loaded types in hierarchical Json format.
         /// </param>
         void SetLoadedTypesJson(string loadedTypesJson);
+
+        void SetLoadedTypesRaw(string loadedTypesRaw);
     }
 }

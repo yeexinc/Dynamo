@@ -14,6 +14,7 @@ namespace Dynamo.HostedContents
     {
         private bool browserLoaded = false;
         private string loadedTypesJson = String.Empty;
+        private string loadedTypesRaw = String.Empty;
 
         public LibraryContainer()
         {
@@ -38,6 +39,11 @@ namespace Dynamo.HostedContents
             this.loadedTypesJson = loadedTypesJson;
         }
 
+        public void SetLoadedTypesRaw(string loadedTypesRaw)
+        {
+            this.loadedTypesRaw = loadedTypesRaw;
+        }
+
         #endregion
 
         #region Gateway Methods: from JavaScript to .NET (public methods)
@@ -45,6 +51,11 @@ namespace Dynamo.HostedContents
         public string GetLoadedTypesJson()
         {
             return loadedTypesJson;
+        }
+
+        public string GetLoadedTypesRaw()
+        {
+            return loadedTypesRaw;
         }
 
         #endregion
