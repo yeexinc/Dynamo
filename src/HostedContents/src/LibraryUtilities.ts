@@ -1,7 +1,7 @@
 
 type MemberType = "none" | "creation" | "action" | "query";
 type ElementType = "none" | "category" | "group";
-type ItemType = "none" | "category" | "group";
+type ItemType = "none" | "category" | "group" | "creation" | "action" | "query";
 
 class TypeTreeNode {
 
@@ -48,16 +48,73 @@ class LibraryItem {
     }
 }
 
-function constructLibraryItem(layoutElement: LayoutElement): LibraryItem {
+function getTypeTreeNodeFromPath(
+    typeTreeNodes: TypeTreeNode[],
+    path: string): TypeTreeNode
+{
+    return null;
+}
 
+/**
+ * This method merges a type node (and its immediate sub nodes) under the given
+ * library item.
+ * 
+ * Note that this is not a recursive function by design, it only considers the
+ * current TypeTreeNode, and any possible child TypeTreeNode but nothing beyond
+ * that depth.
+ * 
+ * @param {TypeTreeNode} typeTreeNode
+ * The type node to be merged under the given library item. Its immediate child 
+ * nodes will also be merged under the new library item, but the recursion does 
+ * not go beyond that depth.
+ * 
+ * @param {LibraryItem} libraryItem
+ * The library item under which a type node (and its sub nodes) is to be merged.
+ */
+function mergeTypeNodeUnderLibraryItem(
+    typeTreeNode: TypeTreeNode,
+    libraryItem: LibraryItem): void
+{
+    if (!typeTreeNode) return;
+
+    let item = new LibraryItem(typeTreeNode.text);
+    libraryItem.appendChild(item); // Create a new child library item.
+
+    item.creationName = typeTreeNode.creationName;
+    item.iconName = typeTreeNode.iconName;
+    item.itemType = typeTreeNode.memberType;
+
+    for (let i = 0; i < typeTreeNode.childNodes.length; i++) {
+
+        let subNode = typeTreeNode.childNodes[i];
+        let subItem = new LibraryItem(subNode.text);
+        item.appendChild(subItem);
+
+        subItem.creationName = subNode.creationName;
+        subItem.iconName = subNode.iconName;
+        subItem.itemType = subNode.memberType;
+    }
+}
+
+function constructLibraryItem(
+    typeTreeNodes: TypeTreeNode[],
+    layoutElement: LayoutElement): LibraryItem
+{
     let result = new LibraryItem(layoutElement.text);
     result.iconName = layoutElement.iconName;
     result.itemType = layoutElement.elementType;
 
+    // This layout element may or may not have any included path.
+    for (let i = 0; i < layoutElement.include.length; i++) {
+        let path = layoutElement.include[i];
+        let typeTreeNode = getTypeTreeNodeFromPath(typeTreeNodes, path);
+        mergeTypeNodeUnderLibraryItem(typeTreeNode, result);
+    }
+
     // Construct all child library items from child layout elements.
     for (let i = 0; i < layoutElement.childElements.length; i++) {
         let childLayoutElement = layoutElement.childElements[i];
-        result.appendChild(constructLibraryItem(childLayoutElement));
+        result.appendChild(constructLibraryItem(typeTreeNodes, childLayoutElement));
     }
 
     return result;
@@ -92,7 +149,7 @@ export function convertToLibraryTree(
     for (let i = 0; i < layoutElements.length; i++) {
 
         let layoutElement = layoutElements[i];
-        results.push(constructLibraryItem(layoutElement));
+        results.push(constructLibraryItem(typeTreeNodes, layoutElement));
     }
 
     // Traverse through library item tree to merge loaded data types in.
