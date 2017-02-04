@@ -198,11 +198,5 @@ export function convertToLibraryTree(
         results.push(constructLibraryItem(typeTreeNodes, layoutElement));
     }
 
-    // Traverse through library item tree to merge loaded data types in.
-    for (let i = 0; i < results.length; i++) {
-
-        let libraryItem = results[i];
-    }
-
     return results;
 }
