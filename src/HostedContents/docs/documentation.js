@@ -22,18 +22,21 @@ let loadedDataTypeSchema =
                                     childNodes: [
                                         {
                                             text: "ByGeometry",
-                                            iconName: "Autodesk.DesignScript.Geometry.BoundingBox.png",
-                                            itemType: "creation"
+                                            iconName: "Autodesk.DesignScript.Geometry.BoundingBox.ByGeometry.png",
+                                            itemType: "creation",
+                                            creationName: "Autodesk.DesignScript.Geometry.BoundingBox.ByGeometry@Autodesk.DesignScript.Geometry.Geometry"
                                         },
                                         {
                                             text: "Intersects",
                                             iconName: "Autodesk.DesignScript.Geometry.BoundingBox.Intersects.png",
-                                            itemType: "action"
+                                            itemType: "action",
+                                            creationName: "..."
                                         },
                                         {
                                             text: "MinPoint",
                                             iconName: "Autodesk.DesignScript.Geometry.BoundingBox.MinPoint.png",
-                                            itemType: "query"
+                                            itemType: "query",
+                                            creationName: "..."
                                         }
                                     ]
                                 }
@@ -42,7 +45,6 @@ let loadedDataTypeSchema =
                     ]
                 }
             ]
-
         },
         {
             text: "Core",
@@ -89,9 +91,69 @@ let loadedDataTypeSchema =
             text: "Operator",
             childNodes: [
                 {
-                    text: "+",
-                    iconName: "...png",
-                    itemType: "action"
+                    text: "!=",
+                    iconName: "nq.png",
+                    itemType: "action",
+                    creationName: "!=@var[]..[],var[]..[]"
+                }
+            ]
+        }
+    ]
+};
+
+let libraryFilters = {
+    groups: [
+        {
+            text: "Geometry",
+            iconName: "Category.Geometry.png",
+            itemType: "category",
+            include: [],
+            childGroups: [
+                {
+                    text: "Abstract",
+                    iconName: "",
+                    itemType: "group",
+                    include: [
+                        "Autodesk.DesignScript.Geometry.BoundingBox",
+                        "Autodesk.DesignScript.Geometry.CoordinateSystem",
+                        "Autodesk.DesignScript.Geometry.Vector"
+                    ],
+                    childGroups: []
+                },
+                {
+                    text: "Curves",
+                    iconName: "",
+                    itemType: "group",
+                    include: [
+                        "Autodesk.DesignScript.Geometry.Arc",
+                        "Autodesk.DesignScript.Geometry.Line"                        
+                    ],
+                    childGroups: []
+                }
+            ]
+        },
+        {
+            text: "Display",
+            iconName: "Category.Display.png",
+            itemType: "category",
+            include: [
+                "Core.Color.Color"
+            ],
+            childGroups: []
+        },
+        {
+            text: "List",
+            iconName: "Category.List.png",
+            itemType: "category",
+            include: [],
+            childGroups: [
+                {
+                    text: "Generate",
+                    iconName: "",
+                    itemType: "group",
+                    include: [
+                        "Core.List"
+                    ]
                 }
             ]
         }
