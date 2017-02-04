@@ -4,9 +4,9 @@
 //   https://google.github.io/styleguide/jsoncstyleguide.xml
 // 
 
-let loadedDataTypeSchema = 
+let typeTreeNodeSample = 
 {
-    loadedDataTypes: [
+    typeTreeNode: [
         {
             text: "Autodesk",
             childNodes: [
@@ -101,56 +101,56 @@ let loadedDataTypeSchema =
     ]
 };
 
-let libraryFilters = {
+let layoutElementSample = {
     groups: [
         {
             text: "Geometry",
             iconName: "Category.Geometry.png",
-            itemType: "category",
+            elementType: "category",
             include: [],
-            childGroups: [
+            childElements: [
                 {
                     text: "Abstract",
                     iconName: "",
-                    itemType: "group",
+                    elementType: "group",
                     include: [
                         "Autodesk.DesignScript.Geometry.BoundingBox",
                         "Autodesk.DesignScript.Geometry.CoordinateSystem",
                         "Autodesk.DesignScript.Geometry.Vector"
                     ],
-                    childGroups: []
+                    childElements: []
                 },
                 {
                     text: "Curves",
                     iconName: "",
-                    itemType: "group",
+                    elementType: "group",
                     include: [
                         "Autodesk.DesignScript.Geometry.Arc",
                         "Autodesk.DesignScript.Geometry.Line"                        
                     ],
-                    childGroups: []
+                    childElements: []
                 }
             ]
         },
         {
             text: "Display",
             iconName: "Category.Display.png",
-            itemType: "category",
+            elementType: "category",
             include: [
                 "Core.Color.Color"
             ],
-            childGroups: []
+            childElements: []
         },
         {
             text: "List",
             iconName: "Category.List.png",
-            itemType: "category",
+            elementType: "category",
             include: [],
-            childGroups: [
+            childElements: [
                 {
                     text: "Generate",
                     iconName: "",
-                    itemType: "group",
+                    elementType: "group",
                     include: [
                         "Core.List"
                     ]
@@ -160,7 +160,7 @@ let libraryFilters = {
     ]
 };
 
-let itemSchema = 
+let libraryItemSample = 
 {
     text: "Geometry",
     iconName: "GeometryCategory.png",

@@ -10,8 +10,8 @@ Installing Webpack and TypeScript globally
 
 - Build source scripts
 
-    src/HostedContents> webpack
     src/HostedContents> tsc
+    src/HostedContents> webpack
 
 - Serve up the new library view
 
