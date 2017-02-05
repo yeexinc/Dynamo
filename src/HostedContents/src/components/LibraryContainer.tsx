@@ -1,3 +1,6 @@
+/// <reference path="../../node_modules/@types/node/index.d.ts" />
+
+import * as fs from "fs";
 import * as React from "react";
 import { LibraryItem, ItemData } from "./LibraryItem";
 
@@ -9,6 +12,10 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
     render() {
 
         try {
+            if (!boundContainer) {
+                return this.renderFromOfflineContents();
+            }
+
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
             const childItems = rootNode.childItems;
             const listItems = childItems.map((item : ItemData) => (<LibraryItem data={ item } />));
@@ -19,5 +26,9 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
             return (<div>{ exception.message }</div>);
         }
 
+    }
+
+    renderFromOfflineContents() {
+        return (<div>test</div>);
     }
 }
