@@ -119,7 +119,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         if (actionMethods.length > 0) {
             actionCluster = (<ClusterView
                 iconPath="src/resources/icons/library-action.png"
-                borderColor="#4b9dbf" /* blue */
+                borderColor="#ad5446" /* red */
                 childItems={ actionMethods } />);
         }
 
@@ -127,7 +127,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         if (queryMethods.length > 0) {
             queryCluster = (<ClusterView
                 iconPath="src/resources/icons/library-query.png"
-                borderColor="#ad5446" /* red */
+                borderColor="#4b9dbf" /* blue */
                 childItems={ queryMethods } />);
         }
 
