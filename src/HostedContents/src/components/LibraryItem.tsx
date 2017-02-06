@@ -88,11 +88,12 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
     getNestedElements(): any {
 
+        let index = 0;
         return (
             <div className={ "LibraryItemBody" }>
             {
                 this.props.data.childItems.map((item: ItemData) => {
-                    return (<LibraryItem data={ item } />);
+                    return (<LibraryItem key={ index++ } data={ item } />);
                 })
             }
             </div>

@@ -16,9 +16,10 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, und
                 return this.renderFromOfflineContents();
             }
 
+            let index = 0;
             const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
             const childItems = rootNode.childItems;
-            const listItems = childItems.map((item : ItemData) => (<LibraryItem data={ item } />));
+            const listItems = childItems.map((item : ItemData) => (<LibraryItem key={ index++ } data={ item } />));
 
             return (<div>{ listItems }</div>);
         }
