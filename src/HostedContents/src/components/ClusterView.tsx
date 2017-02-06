@@ -44,8 +44,9 @@ export class ClusterView extends React.Component<ClusterViewProps, undefined> {
 
     getNestedElements() {
 
+        let index = 0;
         return this.props.childItems.map((item: ItemData) => {
-            return (<LibraryItem data={ item } />);
+            return (<LibraryItem key={ index++ } data={ item } />);
         });
     }
 

@@ -88,11 +88,12 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
     getNestedElements(): any {
 
+        let index = 0;
         return (
             <div className={ "LibraryItemBody" }>
             {
                 this.props.data.childItems.map((item: ItemData) => {
-                    return (<LibraryItem data={ item } />);
+                    return (<LibraryItem key={ index++ } data={ item } />);
                 })
             }
             </div>
@@ -110,7 +111,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         if (creationMethods.length > 0) {
             creationCluster = (<ClusterView
                 iconPath="src/resources/icons/library-creation.png"
-                borderColor="greenyellow"
+                borderColor="#62895b" /* green */
                 childItems={ creationMethods } />);
         }
 
@@ -118,7 +119,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         if (actionMethods.length > 0) {
             actionCluster = (<ClusterView
                 iconPath="src/resources/icons/library-action.png"
-                borderColor="royalblue"
+                borderColor="#4b9dbf" /* blue */
                 childItems={ actionMethods } />);
         }
 
@@ -126,7 +127,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         if (queryMethods.length > 0) {
             queryCluster = (<ClusterView
                 iconPath="src/resources/icons/library-query.png"
-                borderColor="orangered"
+                borderColor="#ad5446" /* red */
                 childItems={ queryMethods } />);
         }
 
