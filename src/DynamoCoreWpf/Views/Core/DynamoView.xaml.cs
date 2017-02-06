@@ -580,6 +580,8 @@ namespace Dynamo.Controls
                 {
                     // Does nothing for now.
                 };
+
+                SetLoadedTypesRaw(libraryContainer, dynamoViewModel.Model.SearchModel.SearchEntries);
             }
             catch (Exception ex)
             {
@@ -674,6 +676,39 @@ namespace Dynamo.Controls
             {
                 this.Deactivated += (s, args) => { HidePopupWhenWindowDeactivated(); };
             }
+        }
+
+        private void SetLoadedTypesRaw(ILibraryContainer libraryContainer, IEnumerable<NodeSearchElement> searchEntries)
+        {
+            var builder = new System.Text.StringBuilder();
+            builder.Append(@"{ ""loadedTypes"": [");
+
+            bool firstIteration = true;
+            foreach (var entry in searchEntries)
+            {
+                if (firstIteration)
+                    firstIteration = false;
+                else
+                    builder.Append(",");
+
+                var itemType = "";
+                switch (entry.Group)
+                {
+                    case SearchElementGroup.Create: itemType = "creation"; break;
+                    case SearchElementGroup.Action: itemType = "action"; break;
+                    case SearchElementGroup.Query: itemType = "query"; break;
+                }
+
+                builder.Append("{");
+                builder.AppendFormat(" \"fullyQualifiedName\": \"{0}\", ", entry.FullName);
+                builder.AppendFormat(" \"iconName\": \"{0}\", ", entry.IconName);
+                builder.AppendFormat(" \"creationName\": \"{0}\", ", entry.CreationName);
+                builder.AppendFormat(" \"itemType\": \"{0}\" ", itemType);
+                builder.Append("}");
+            }
+
+            builder.Append(@"] }");
+            libraryContainer.SetLoadedTypesRaw(builder.ToString());
         }
 
         /// <summary>
