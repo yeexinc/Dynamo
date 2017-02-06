@@ -2,14 +2,10 @@
 var fs = require("fs");
 var express = require("express");
 var app = express();
-app.use(express.static(__dirname));
 
-app.get("/", function (req, res) {
-  res.render("index.html");
-});
+function loadJsonFromFile(jsonPath, req, res) {
 
-app.get("/loadedTypes", function(req, res) {
-  fs.readFile("./docs/RawTypeData.json", function(err, data) {
+  fs.readFile(jsonPath, function(err, data) {
     if (err) {
       res.end(err.message);
     } else {
@@ -17,7 +13,20 @@ app.get("/loadedTypes", function(req, res) {
       res.end(data.toString());
     }
   });
+}
 
+app.use(express.static(__dirname));
+
+app.get("/", function (req, res) {
+  res.render("index.html");
+});
+
+app.get("/loadedTypes", function(req, res) {
+  loadJsonFromFile("./docs/RawTypeData.json", req, res);
+});
+
+app.get("/tempData", function(req, res) {
+  loadJsonFromFile("./docs/TemporaryLibraryContents.json", req, res);
 });
 
 app.listen(3456, function () {
