@@ -101,8 +101,8 @@ let typeTreeNodeSample =
     ]
 };
 
-let layoutElementSample = {
-    groups: [
+let layoutSpecificationSample = {
+    elements: [
         {
             text: "Geometry",
             iconName: "Category.Geometry.png",
