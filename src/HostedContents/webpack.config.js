@@ -1,5 +1,9 @@
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: [
+        "./src/index.tsx",
+        "./src/LibraryUtilities.ts"
+    ],
+    target: "node",
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist"
@@ -10,6 +14,7 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
+        modulesDirectories: ["node_modules"],
         extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
     },
 

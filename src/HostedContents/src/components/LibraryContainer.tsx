@@ -1,35 +1,62 @@
 /// <reference path="../../node_modules/@types/node/index.d.ts" />
+/// <reference path="../../node_modules/@types/whatwg-fetch/index.d.ts" />
 
-import * as fs from "fs";
 import * as React from "react";
 import { LibraryItem, ItemData } from "./LibraryItem";
 
 declare var boundContainer: any;
 
 export interface LibraryContainerProps { }
+export interface LibraryContainerStates {
+    libraryContentsLoaded: boolean
+}
 
-export class LibraryContainer extends React.Component<LibraryContainerProps, undefined> {
+export class LibraryContainer extends React.Component<LibraryContainerProps, LibraryContainerStates> {
+
+    libraryTreeJson: any = null;
+
+    constructor(props: LibraryContainerProps) {
+
+        super(props);
+        this.state = { libraryContentsLoaded: false };
+
+        this.downloadAndProcessTypeData();
+    }
+
     render() {
 
-        try {
-            if (!boundContainer) {
-                return this.renderFromOfflineContents();
-            }
+        if (!this.state.libraryContentsLoaded) {
+            return (<div>Downloading contents...</div>);
+        }
 
+        // if (boundContainer) {
+        //     this.libraryTreeJson = JSON.parse(boundContainer.getLoadedTypesJson());
+        // }
+
+        try {
+            
             let index = 0;
-            const rootNode = JSON.parse(boundContainer.getLoadedTypesJson());
-            const childItems = rootNode.childItems;
+            const childItems = this.libraryTreeJson.childItems;
             const listItems = childItems.map((item : ItemData) => (<LibraryItem key={ index++ } data={ item } />));
 
             return (<div>{ listItems }</div>);
         }
         catch(exception) {
-            return (<div>{ exception.message }</div>);
+            return (<div>Exception thrown: { exception.message }</div>);
         }
-
     }
 
-    renderFromOfflineContents() {
-        return (<div>test</div>);
+    downloadAndProcessTypeData() {
+
+        let thisObject = this;
+
+        // Download the locally hosted data type json file.
+        fetch("http://localhost:3456/tempData")
+            .then(function(response: Response) {
+                return response.text();
+            }).then(function(jsonString) {
+                thisObject.libraryTreeJson = JSON.parse(jsonString);
+                thisObject.setState({ libraryContentsLoaded: true });
+            });
     }
 }
