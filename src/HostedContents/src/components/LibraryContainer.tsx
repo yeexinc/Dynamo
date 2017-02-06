@@ -51,7 +51,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
         let thisObject = this;
 
         // Download the locally hosted data type json file.
-        fetch("http://localhost:3456/tempData")
+        fetch("tempData")
             .then(function(response: Response) {
                 return response.text();
             }).then(function(jsonString) {
