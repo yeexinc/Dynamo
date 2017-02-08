@@ -164,5 +164,16 @@ export function convertToLibraryTree(
 
 export default function convertNow(loadedTypes: any, layoutSpecs: any): LibraryItem[]
 {
-    return [];
+    let typeListNodes: TypeListNode[] = [];
+    let layoutElements: LayoutElement[] = [];
+
+    // Converting raw data to strongly typed data.
+    for (let i = 0; i < loadedTypes.loadedTypes.length; i++) {
+        typeListNodes.push(new TypeListNode(loadedTypes.loadedTypes[i]));
+    }
+
+    for (let i = 0; i < layoutSpecs.elements.length; i++) {
+        layoutElements.push(new LayoutElement(layoutSpecs.elements[i]));
+    }
+    return convertToLibraryTree(typeListNodes, layoutElements);
 }
