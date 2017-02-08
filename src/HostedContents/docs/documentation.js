@@ -166,7 +166,7 @@ let libraryItemSample =
     libraryItems: [
         {
             text: "Display",
-            icon: "",
+            iconName: "",
             itemType: "category",
             childItems: []
         },
