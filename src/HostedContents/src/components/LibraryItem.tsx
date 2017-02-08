@@ -110,7 +110,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         let creationCluster = null;
         if (creationMethods.length > 0) {
             creationCluster = (<ClusterView
-                iconPath="src/resources/icons/library-creation.png"
+                iconPath="src/resources/icons/library-creation.svg"
                 borderColor="#62895b" /* green */
                 childItems={ creationMethods } />);
         }
@@ -118,7 +118,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         let actionCluster = null;
         if (actionMethods.length > 0) {
             actionCluster = (<ClusterView
-                iconPath="src/resources/icons/library-action.png"
+                iconPath="src/resources/icons/library-action.svg"
                 borderColor="#ad5446" /* red */
                 childItems={ actionMethods } />);
         }
@@ -126,7 +126,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         let queryCluster = null;
         if (queryMethods.length > 0) {
             queryCluster = (<ClusterView
-                iconPath="src/resources/icons/library-query.png"
+                iconPath="src/resources/icons/library-query.svg"
                 borderColor="#4b9dbf" /* blue */
                 childItems={ queryMethods } />);
         }
