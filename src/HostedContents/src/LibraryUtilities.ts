@@ -161,3 +161,8 @@ export function convertToLibraryTree(
 
     return results;
 }
+
+export default function convertNow(loadedTypes: any, layoutSpecs: any): LibraryItem[]
+{
+    return [];
+}

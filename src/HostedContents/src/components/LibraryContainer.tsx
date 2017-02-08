@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import { LibraryItem, ItemData } from "./LibraryItem";
+import convertNow from "../LibraryUtilities";
 
 declare var boundContainer: any; // Object set from C# side.
 
@@ -76,7 +77,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
             return; // Not ready to generate library items yet.
         }
 
-        this.generatedLibraryItems = null;
+        this.generatedLibraryItems = convertNow(null, null);
         this.setState({ libraryContentsLoaded: true });
     }
 }
