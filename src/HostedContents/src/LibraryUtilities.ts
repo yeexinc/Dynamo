@@ -3,18 +3,14 @@ type MemberType = "none" | "creation" | "action" | "query";
 type ElementType = "none" | "category" | "group";
 type ItemType = "none" | "category" | "group" | "creation" | "action" | "query";
 
-class TypeTreeNode {
+class TypeListNode {
 
+    fullyQualifiedName: string = "";
     iconName: string = "";
     creationName: string = "";
     memberType: MemberType = "none";
-    childNodes: TypeTreeNode[] = [];
 
     constructor(public text: string) {
-    }
-
-    appendChild(childNode: TypeTreeNode) {
-        this.childNodes.push(childNode);
     }
 }
 
@@ -79,6 +75,7 @@ class LibraryItem {
  * @returns {TypeTreeNode}
  * Returns a TypeTreeNode if one is found, or null otherwise.
  */
+/*
 function getTypeTreeNodeFromParts(
     typeTreeNodes: TypeTreeNode[],
     parts: string[]): TypeTreeNode
@@ -100,6 +97,7 @@ function getTypeTreeNodeFromParts(
     // Remove the first part and continue.
     return getTypeTreeNodeFromParts(node.childNodes, parts.slice(1));
 }
+*/
 
 /**
  * This method merges a type node (and its immediate sub nodes) under the given
@@ -143,7 +141,7 @@ function mergeTypeNodeUnderLibraryItem(
 }
 
 function constructLibraryItem(
-    typeTreeNodes: TypeTreeNode[],
+    typeTreeNodes: TypeListNode[],
     layoutElement: LayoutElement): LibraryItem
 {
     let result = new LibraryItem(layoutElement.text);
@@ -152,8 +150,8 @@ function constructLibraryItem(
 
     // This layout element may or may not have any included path.
     for (let i = 0; i < layoutElement.include.length; i++) {
-        let parts = layoutElement.include[i].split(".");
-        let typeTreeNode = getTypeTreeNodeFromParts(typeTreeNodes, parts);
+        // let parts = layoutElement.include[i].split(".");
+        // let typeTreeNode = getTypeTreeNodeFromParts(typeTreeNodes, parts);
         mergeTypeNodeUnderLibraryItem(typeTreeNode, result);
     }
 
@@ -186,7 +184,7 @@ function constructLibraryItem(
  * layout element tree.
  */
 export function convertToLibraryTree(
-    typeTreeNodes: TypeTreeNode[],
+    typeListNodes: TypeTreeNode[],
     layoutElements: LayoutElement[]): LibraryItem[]
 {
     let results: LibraryItem[] = []; // Resulting tree of library items.

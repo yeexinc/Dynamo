@@ -3,7 +3,7 @@
 //
 //   https://google.github.io/styleguide/jsoncstyleguide.xml
 // 
-
+/*
 let typeTreeNodeSample = 
 {
     typeTreeNode: [
@@ -100,6 +100,7 @@ let typeTreeNodeSample =
         }
     ]
 };
+*/
 
 let layoutSpecificationSample = {
     elements: [
@@ -162,34 +163,43 @@ let layoutSpecificationSample = {
 
 let libraryItemSample = 
 {
-    text: "Geometry",
-    iconName: "GeometryCategory.png",
-    itemType: "category",
-    childItems: [
+    libraryItems: [
         {
-            text: "Abstract", // Group
-            iconName: "AbstractGroup.png",
-            itemType: "group",
+            text: "Display",
+            icon: "",
+            itemType: "category",
+            childItems: []
+        },
+        {
+            text: "Geometry",
+            iconName: "GeometryCategory.png",
+            itemType: "category",
             childItems: [
                 {
-                    text: "BoundingBox", // Class
-                    iconName: "Autodesk.DesignScript.Geometry.BoundingBox.png",
-                    itemType: "none",
+                    text: "Abstract", // Group
+                    iconName: "AbstractGroup.png",
+                    itemType: "group",
                     childItems: [
                         {
-                            text: "ByCorners", // Method
-                            iconName: "Autodesk.DesignScript.Geometry.BoundingBox.ByCorners.png",
-                            itemType: "none|creation|action|query"
-                        },
-                        {
-                            text: "Intersects", // Method
-                            iconName: "Autodesk.DesignScript.Geometry.BoundingBox.Intersects.png",
-                            itemType: "none|creation|action|query"
+                            text: "BoundingBox", // Class
+                            iconName: "Autodesk.DesignScript.Geometry.BoundingBox.png",
+                            itemType: "none",
+                            childItems: [
+                                {
+                                    text: "ByCorners", // Method
+                                    iconName: "Autodesk.DesignScript.Geometry.BoundingBox.ByCorners.png",
+                                    itemType: "none|creation|action|query"
+                                },
+                                {
+                                    text: "Intersects", // Method
+                                    iconName: "Autodesk.DesignScript.Geometry.BoundingBox.Intersects.png",
+                                    itemType: "none|creation|action|query"
+                                },
+                            ]
                         },
                     ]
                 },
             ]
-        },
+        }
     ]
 };
-
