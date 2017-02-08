@@ -25,6 +25,10 @@ app.get("/loadedTypes", function(req, res) {
   loadJsonFromFile("./docs/RawTypeData.json", req, res);
 });
 
+app.get("/layoutSpecs", function(req, res) {
+  loadJsonFromFile("./docs/LayoutSpecs.json", req, res);
+});
+
 app.get("/tempData", function(req, res) {
   loadJsonFromFile("./docs/TemporaryLibraryContents.json", req, res);
 });
