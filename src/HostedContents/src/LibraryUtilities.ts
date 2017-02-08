@@ -77,61 +77,6 @@ class LibraryItem {
 }
 
 /**
- * Given a type tree and a path, locate the corresponding type tree node.
- * 
- * @param {TypeTreeNode[]} typeTreeNode
- * The type tree from which a particular TypeTreeNode is to be retrieved.
- * An example of the type tree is as followed:
- * 
- * {
- *   text: "DesignScript",
- *   childNodes: [
- *     {
- *       text: "Geometry",
- *       childNodes: [
- *         {
- *           text: "Arc",
- *           childNodes: []
- *         }
- *       ]
- *     }
- *   ]
- * }
- * 
- * @param {string[]} parts
- * The parts of a path to help locate a given TypeTreeNode. For example, 
- * a type with name "DesignScript.Geometry.Arc" can be broken down into 
- * ["Geometry", "DesignScript", "Arc"], and it will locate the TypeTreeNode
- * "Arc" as outlined in the example above.
- * 
- * @returns {TypeTreeNode}
- * Returns a TypeTreeNode if one is found, or null otherwise.
- */
-/*
-function getTypeTreeNodeFromParts(
-    typeTreeNodes: TypeTreeNode[],
-    parts: string[]): TypeTreeNode
-{
-    // Search for the root node with matching text.
-    let node: TypeTreeNode = null;
-    for (let i = 0; i < typeTreeNodes.length; i++) {
-        let typeTreeNode = typeTreeNodes[i];
-        if (typeTreeNode.text == parts[0]) {
-            node = typeTreeNode;
-            break;
-        }
-    }
-
-    if (!node || (parts.length <= 1)) { // Look no further.
-        return node;
-    }
-
-    // Remove the first part and continue.
-    return getTypeTreeNodeFromParts(node.childNodes, parts.slice(1));
-}
-*/
-
-/**
  * This method merges a type node (and its immediate sub nodes) under the given
  * library item.
  * 
@@ -154,15 +99,17 @@ function constructLibraryItem(
 {
     let result = new LibraryItem();
     result.constructFromLayoutElement(layoutElement);
-    //traverse through the strings in 'include'
+
+    // Traverse through the strings in 'include'
     for (let i = 0; i < layoutElement.include.length; i++) {
         let newClass = new LibraryItem();
         newClass.constructClass(layoutElement.include[i]);
 
-        //traverse through each node in typeListNodes (from RawTypeData.json)
+        // Traverse through each node in typeListNodes (from RawTypeData.json)
         for (let j = 0; j < typeListNodes.length; j++) {
-            //check if the names contain the included strings
-            //(note: unsure if this is the correct way of comparing the names)
+            
+            // Check if the names contain the included strings
+            // (Note: unsure if this is the correct way of comparing the names)
             if (typeListNodes[j].fullyQualifiedName.indexOf(layoutElement.include[i]) >= 0 
             || typeListNodes[j].creationName.split('@')[0].indexOf(layoutElement.include[i]) >= 0) {
                 let newMethod = new LibraryItem(); 
