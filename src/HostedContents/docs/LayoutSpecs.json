@@ -1,0 +1,59 @@
+{
+  "elements": [
+    {
+      "text": "Geometry",
+      "iconName": "Category.Geometry.png",
+      "elementType": "category",
+      "include": [],
+      "childElements": [
+        {
+          "text": "Abstract",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "Autodesk.DesignScript.Geometry.BoundingBox",
+            "Autodesk.DesignScript.Geometry.CoordinateSystem",
+            "Autodesk.DesignScript.Geometry.Vector"
+          ],
+          "childElements": []
+        },
+        {
+          "text": "Curves",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "Autodesk.DesignScript.Geometry.Arc",
+            "Autodesk.DesignScript.Geometry.Line"
+          ],
+          "childElements": []
+        }
+      ]
+    },
+    {
+      "text": "Display",
+      "iconName": "Category.Display.png",
+      "elementType": "category",
+      "include": [
+        "Core.Color.Color",
+        "Display.Display"
+      ],
+      "childElements": []
+    },
+    {
+      "text": "List",
+      "iconName": "Category.List.png",
+      "elementType": "category",
+      "include": [],
+      "childElements": [
+        {
+          "text": "Generate",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "Core.List"
+          ]
+        }
+      ]
+    }
+  ]
+}
