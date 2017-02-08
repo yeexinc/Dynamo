@@ -54,7 +54,7 @@
     },
     {
       "text": "List",
-      "iconName": "Category.List.png",
+      "iconName": "Category.List",
       "elementType": "category",
       "include": [],
       "childElements": [
