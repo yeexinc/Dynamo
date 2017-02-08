@@ -60,8 +60,9 @@ class LibraryItem {
     }
 
     constructClass(name: string) {
-        this.text = name.split('.').pop();
-        this.iconName = name;
+        let n = name.split('.').pop(); // E.g. Only 'BoundingBox' will be taken from Autodesk.DesignScript.Geometry.BoundingBox
+        this.text = n;
+        this.iconName = n;
         this.itemType = "none";
     }
 
