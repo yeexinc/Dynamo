@@ -46,6 +46,7 @@ class LibraryItem {
 
     text: string = "";
     iconName: string = "";
+    creationName: string = "";
     itemType: ItemType = "none";
     childItems: LibraryItem[] = [];
 
@@ -146,29 +147,6 @@ function getTypeTreeNodeFromParts(
  * @param {LibraryItem} libraryItem
  * The library item under which a type node (and its sub nodes) is to be merged.
  */
-/*
-function mergeTypeNodeUnderLibraryItem(
-    typeListNode: TypeListNode,
-    libraryItem: LibraryItem): void
-{
-    if (!typeListNode) return;
-
-    // let item = new LibraryItem(typeListNode.text);
-    // libraryItem.appendChild(item); // Create a new child library item.
-
-    // item.iconName = typeListNode.iconName;
-    // item.itemType = typeListNode.memberType;
-    for (let i = 0; i < typeListNode.childNodes.length; i++) {
-
-        let subNode = typeTreeNode.childNodes[i];
-        let subItem = new LibraryItem(subNode.text);
-        item.appendChild(subItem);
-
-        subItem.creationName = subNode.creationName;
-        subItem.iconName = subNode.iconName;
-        subItem.itemType = subNode.memberType;
-    }
-}*/
 
 function constructLibraryItem(
     typeListNodes: TypeListNode[],
