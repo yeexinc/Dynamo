@@ -2,7 +2,7 @@
   "elements": [
     {
       "text": "Geometry",
-      "iconName": "Category.Geometry.png",
+      "iconName": "Geometry",
       "elementType": "category",
       "include": [],
       "childElements": [
@@ -18,26 +18,39 @@
           "childElements": []
         },
         {
+          "text": "Geometry",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "Tessellation"
+          ],
+          "childElements": []
+        },
+        {
+          "text": "Points",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "Autodesk.DesignScript.Geometry.Point",
+            "Autodesk.DesignScript.Geometry.UV"
+          ],
+          "childElements": []
+        },
+        {
           "text": "Curves",
           "iconName": "",
           "elementType": "group",
           "include": [
             "Autodesk.DesignScript.Geometry.Arc",
+            "Autodesk.DesignScript.Geometry.Circle",
+            "Autodesk.DesignScript.Geometry.Curve",
+            "Autodesk.DesignScript.Geometry.Ellipse",
+            "Autodesk.DesignScript.Geometry.EllipseArc",
             "Autodesk.DesignScript.Geometry.Line"
           ],
           "childElements": []
         }
       ]
-    },
-    {
-      "text": "Display",
-      "iconName": "Category.Display.png",
-      "elementType": "category",
-      "include": [
-        "Core.Color.Color",
-        "Display.Display"
-      ],
-      "childElements": []
     },
     {
       "text": "List",
@@ -50,7 +63,23 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Core.List"
+            "List"
+          ]
+        },
+        {
+          "text": "Inspect",
+          "iconName": "",
+          "elementType": "group",
+          "include": [
+            "AllFalse",
+            "AllTrue",
+            "IsHomogeneous",
+            "IsRectangular",
+            "IsUniformDepth",
+            "SetDifference",
+            "SetIntersection",
+            "TrueForAll",
+            "TrueForAny"
           ]
         }
       ]
