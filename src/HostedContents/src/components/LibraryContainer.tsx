@@ -39,7 +39,7 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
             }
             
             let index = 0;
-            const childItems = this.generatedLibraryItems.childItems;
+            const childItems = this.generatedLibraryItems;
             const listItems = childItems.map((item : ItemData) => (<LibraryItem key={ index++ } data={ item } />));
 
             return (<div>{ listItems }</div>);
@@ -77,7 +77,9 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
             return; // Not ready to generate library items yet.
         }
 
-        this.generatedLibraryItems = convertNow(null, null);
+        this.generatedLibraryItems = convertNow(
+            this.loadedTypesJson, this.layoutSpecsJson);
+
         this.setState({ libraryContentsLoaded: true });
     }
 }

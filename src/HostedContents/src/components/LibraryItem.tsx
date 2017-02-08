@@ -41,6 +41,11 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
         let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".png";
 
+        let iconElement = null;
+        if (this.props.data.itemType != "group") { // Group displays only text without icon.
+           iconElement = (<img className={ "LibraryItemIcon" } src={ iconPath } />);
+        }
+
         let nestedElements = null;
 
         if (this.state.expanded) // Show only nested elements when expanded.
@@ -59,7 +64,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         return (
             <div className={ this.getLibraryItemContainerStyle() }>
                 <div className={ "LibraryItemHeader" } onClick={ this.onLibraryItemClicked.bind(this) } >
-                    <img className={ "LibraryItemIcon" } src={ iconPath } />
+                    { iconElement }
                     <div className={ "LibraryItemText" }>{ this.props.data.text }</div>
                 </div>
                 { nestedElements }
