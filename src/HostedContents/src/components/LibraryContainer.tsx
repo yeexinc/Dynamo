@@ -4,7 +4,7 @@
 import * as React from "react";
 import { LibraryItem, ItemData } from "./LibraryItem";
 
-declare var boundContainer: any;
+declare var boundContainer: any; // Object set from C# side.
 
 export interface LibraryContainerProps { }
 export interface LibraryContainerStates {
@@ -13,7 +13,9 @@ export interface LibraryContainerStates {
 
 export class LibraryContainer extends React.Component<LibraryContainerProps, LibraryContainerStates> {
 
-    libraryTreeJson: any = null;
+    loadedTypesJson: any = null;
+    layoutSpecsJson: any = null;
+    generatedLibraryItems: any = null;
 
     constructor(props: LibraryContainerProps) {
 
@@ -29,14 +31,14 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
             return (<div>Downloading contents...</div>);
         }
 
-        // if (boundContainer) {
-        //     this.libraryTreeJson = JSON.parse(boundContainer.getLoadedTypesJson());
-        // }
-
         try {
+
+            if (!this.generatedLibraryItems) {
+                return (<div>No generated library items</div>);
+            }
             
             let index = 0;
-            const childItems = this.libraryTreeJson.childItems;
+            const childItems = this.generatedLibraryItems.childItems;
             const listItems = childItems.map((item : ItemData) => (<LibraryItem key={ index++ } data={ item } />));
 
             return (<div>{ listItems }</div>);
@@ -51,12 +53,30 @@ export class LibraryContainer extends React.Component<LibraryContainerProps, Lib
         let thisObject = this;
 
         // Download the locally hosted data type json file.
-        fetch("tempData")
-            .then(function(response: Response) {
-                return response.text();
-            }).then(function(jsonString) {
-                thisObject.libraryTreeJson = JSON.parse(jsonString);
-                thisObject.setState({ libraryContentsLoaded: true });
-            });
+        fetch("loadedTypes")
+        .then(function(response: Response) {
+            return response.text();
+        }).then(function(jsonString) {
+            thisObject.loadedTypesJson = JSON.parse(jsonString);
+            thisObject.generateLibraryItems();
+        });
+
+        fetch("layoutSpecs")
+        .then(function(response: Response) {
+            return response.text();
+        }).then(function(jsonString) {
+            thisObject.layoutSpecsJson = JSON.parse(jsonString);
+            thisObject.generateLibraryItems();
+        });
+    }
+
+    generateLibraryItems() {
+
+        if (!this.loadedTypesJson || (!this.layoutSpecsJson)) {
+            return; // Not ready to generate library items yet.
+        }
+
+        this.generatedLibraryItems = null;
+        this.setState({ libraryContentsLoaded: true });
     }
 }
