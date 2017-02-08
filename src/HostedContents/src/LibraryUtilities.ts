@@ -11,7 +11,7 @@ class TypeListNode {
     memberType: MemberType = "none";
 
     constructor(data: any) {
-        this.fullyQualifiedName = data.fullyQualifiedName;
+        this.fullyQualifiedName = data.creationName.split('@')[0]; // TODO: remove this hack
         this.iconName = data.iconName;
         this.creationName = data.creationName;
         this.memberType = data.itemType;
@@ -107,11 +107,9 @@ function constructLibraryItem(
 
         // Traverse through each node in typeListNodes (from RawTypeData.json)
         for (let j = 0; j < typeListNodes.length; j++) {
-            
+
             // Check if the names contain the included strings
-            // (Note: unsure if this is the correct way of comparing the names)
-            if (typeListNodes[j].fullyQualifiedName.indexOf(layoutElement.include[i]) >= 0 
-            || typeListNodes[j].creationName.split('@')[0].indexOf(layoutElement.include[i]) >= 0) {
+            if (typeListNodes[j].fullyQualifiedName.startsWith(layoutElement.include[i])) {
                 let newMethod = new LibraryItem(); 
                 newMethod.constructMethod(typeListNodes[j]);
                 newClass.appendChild(newMethod);
