@@ -10,20 +10,33 @@ class TypeListNode {
     creationName: string = "";
     memberType: MemberType = "none";
 
-    constructor(public text: string) {
+    constructor(data: any) {
+        this.fullyQualifiedName = data.fullyQualifiedName;
+        this.iconName = data.iconName;
+        this.creationName = data.creationName;
+        this.memberType = data.itemType;
     }
 }
 
 class LayoutElement {
 
+    text: string = "";
     iconName: string = "";
     elementType: ElementType = "none";
     include: string[] = [];
     childElements: LayoutElement[] = [];
 
-    constructor(public text: string) {
+    constructor(data: any) {
+        this.text = data.text;
+        this.iconName = data.iconName;
+        this.elementType = data.elementType;
+        this.include = data.include;
+        if (data.childElements) {
+            for (let i = 0; i < data.childElements.length; i++) {
+                this.childElements.push(new LayoutElement(data.childElements[i])); 
+            }
+        }
     }
-
     appendChild(childElement: LayoutElement) {
         this.childElements.push(childElement);
     }
@@ -31,12 +44,30 @@ class LayoutElement {
 
 class LibraryItem {
 
+    text: string = "";
     iconName: string = "";
-    creationName: string = "";
     itemType: ItemType = "none";
     childItems: LibraryItem[] = [];
 
-    constructor(public text: string) {
+    constructor() {
+    }
+
+    constructMethod(listNode: TypeListNode) {
+        this.text = listNode.fullyQualifiedName.split('.').pop();
+        this.iconName = listNode.iconName;
+        this.itemType = listNode.memberType;
+    }
+
+    constructClass(name: string) {
+        this.text = name.split('.').pop();
+        this.iconName = name;
+        this.itemType = "none";
+    }
+
+    constructFromLayoutElement(layoutElement: LayoutElement) {
+        this.text = layoutElement.text;
+        this.iconName = layoutElement.iconName;
+        this.itemType = layoutElement.elementType;
     }
 
     appendChild(childItem: LibraryItem) {
@@ -115,20 +146,19 @@ function getTypeTreeNodeFromParts(
  * @param {LibraryItem} libraryItem
  * The library item under which a type node (and its sub nodes) is to be merged.
  */
+/*
 function mergeTypeNodeUnderLibraryItem(
-    typeTreeNode: TypeTreeNode,
+    typeListNode: TypeListNode,
     libraryItem: LibraryItem): void
 {
-    if (!typeTreeNode) return;
+    if (!typeListNode) return;
 
-    let item = new LibraryItem(typeTreeNode.text);
-    libraryItem.appendChild(item); // Create a new child library item.
+    // let item = new LibraryItem(typeListNode.text);
+    // libraryItem.appendChild(item); // Create a new child library item.
 
-    item.creationName = typeTreeNode.creationName;
-    item.iconName = typeTreeNode.iconName;
-    item.itemType = typeTreeNode.memberType;
-
-    for (let i = 0; i < typeTreeNode.childNodes.length; i++) {
+    // item.iconName = typeListNode.iconName;
+    // item.itemType = typeListNode.memberType;
+    for (let i = 0; i < typeListNode.childNodes.length; i++) {
 
         let subNode = typeTreeNode.childNodes[i];
         let subItem = new LibraryItem(subNode.text);
@@ -138,27 +168,37 @@ function mergeTypeNodeUnderLibraryItem(
         subItem.iconName = subNode.iconName;
         subItem.itemType = subNode.memberType;
     }
-}
+}*/
 
 function constructLibraryItem(
-    typeTreeNodes: TypeListNode[],
+    typeListNodes: TypeListNode[],
     layoutElement: LayoutElement): LibraryItem
 {
-    let result = new LibraryItem(layoutElement.text);
-    result.iconName = layoutElement.iconName;
-    result.itemType = layoutElement.elementType;
-
-    // This layout element may or may not have any included path.
+    let result = new LibraryItem();
+    result.constructFromLayoutElement(layoutElement);
+    //traverse through the strings in 'include'
     for (let i = 0; i < layoutElement.include.length; i++) {
-        // let parts = layoutElement.include[i].split(".");
-        // let typeTreeNode = getTypeTreeNodeFromParts(typeTreeNodes, parts);
-        mergeTypeNodeUnderLibraryItem(typeTreeNode, result);
+        let newClass = new LibraryItem();
+        newClass.constructClass(layoutElement.include[i]);
+
+        //traverse through each node in typeListNodes (from RawTypeData.json)
+        for (let j = 0; j < typeListNodes.length; j++) {
+            //check if the names contain the included strings
+            //(note: unsure if this is the correct way of comparing the names)
+            if (typeListNodes[j].fullyQualifiedName.indexOf(layoutElement.include[i]) >= 0 
+            || typeListNodes[j].creationName.split('@')[0].indexOf(layoutElement.include[i]) >= 0) {
+                let newMethod = new LibraryItem(); 
+                newMethod.constructMethod(typeListNodes[j]);
+                newClass.appendChild(newMethod);
+            }
+        }
+        result.appendChild(newClass);
     }
 
     // Construct all child library items from child layout elements.
     for (let i = 0; i < layoutElement.childElements.length; i++) {
         let childLayoutElement = layoutElement.childElements[i];
-        result.appendChild(constructLibraryItem(typeTreeNodes, childLayoutElement));
+        result.appendChild(constructLibraryItem(typeListNodes, childLayoutElement));
     }
 
     return result;
@@ -184,7 +224,7 @@ function constructLibraryItem(
  * layout element tree.
  */
 export function convertToLibraryTree(
-    typeListNodes: TypeTreeNode[],
+    typeListNodes: TypeListNode[],
     layoutElements: LayoutElement[]): LibraryItem[]
 {
     let results: LibraryItem[] = []; // Resulting tree of library items.
@@ -193,7 +233,7 @@ export function convertToLibraryTree(
     for (let i = 0; i < layoutElements.length; i++) {
 
         let layoutElement = layoutElements[i];
-        results.push(constructLibraryItem(typeTreeNodes, layoutElement));
+        results.push(constructLibraryItem(typeListNodes, layoutElement));
     }
 
     return results;
