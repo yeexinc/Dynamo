@@ -722,7 +722,6 @@ namespace Dynamo.Controls
             }
         }
 
-
         /// <summary>
         /// Close Popup when the Dynamo window is not in the foreground.
         /// </summary>
