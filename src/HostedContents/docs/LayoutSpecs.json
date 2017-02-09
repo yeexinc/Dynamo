@@ -63,7 +63,8 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "List"
+            "Core.List",
+            "DSCore.List"
           ]
         },
         {

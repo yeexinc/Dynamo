@@ -51,6 +51,11 @@ namespace Dynamo.Search.SearchElements
         public virtual string CreationName { get { return this.Name; } }
 
         /// <summary>
+        /// The name that is used during Web UI (This is the same as FullName)
+        /// </summary>
+        public virtual string FullyQualifiedName { get { return FullCategoryName + "." + Name; } }
+
+        /// <summary>
         ///     List of nested categories this search element is contained in.
         /// </summary>
         public ICollection<string> Categories

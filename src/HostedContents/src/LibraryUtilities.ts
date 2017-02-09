@@ -11,7 +11,7 @@ class TypeListNode {
     memberType: MemberType = "none";
 
     constructor(data: any) {
-        this.fullyQualifiedName = data.creationName.split('@')[0]; // TODO: remove this hack
+        this.fullyQualifiedName = data.fullyQualifiedName;
         this.iconName = data.iconName;
         this.creationName = data.creationName;
         this.memberType = data.itemType;

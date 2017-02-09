@@ -700,7 +700,7 @@ namespace Dynamo.Controls
                 }
 
                 builder.Append("{");
-                builder.AppendFormat(" \"fullyQualifiedName\": \"{0}\", ", entry.FullName);
+                builder.AppendFormat(" \"fullyQualifiedName\": \"{0}\", ", entry.FullyQualifiedName);
                 builder.AppendFormat(" \"iconName\": \"{0}\", ", entry.IconName);
                 builder.AppendFormat(" \"creationName\": \"{0}\", ", entry.CreationName);
                 builder.AppendFormat(" \"itemType\": \"{0}\" ", itemType);
@@ -708,8 +708,20 @@ namespace Dynamo.Controls
             }
 
             builder.Append(@"] }");
+            WriteLibraryToFile(builder);
             libraryContainer.SetLoadedTypesRaw(builder.ToString());
         }
+
+        private void WriteLibraryToFile(System.Text.StringBuilder builder)
+        {
+            // Write the unformatted JSON directly in the docs folder in HostedContents
+            string path = System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\..\\src\\HostedContents\\docs\\";
+            using (StreamWriter sw = new StreamWriter(path + "RawTypeData.json"))
+            {
+                sw.WriteLine(builder.ToString());
+            }
+        }
+
 
         /// <summary>
         /// Close Popup when the Dynamo window is not in the foreground.
