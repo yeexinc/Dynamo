@@ -13,6 +13,11 @@ namespace Dynamo.Search.SearchElements
     public abstract class NodeModelSearchElementBase : NodeSearchElement
     {
         /// <summary>
+        /// The name that is used during Web UI (This is the same as FullName of NodeSearchElement)
+        /// </summary>
+        public override string FullyQualifiedName { get { return FullCategoryName + "." + Name; } }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NodeModelSearchElementBase"/> class.
         /// </summary>
         /// <param name="typeLoadData">Data to load.</param>
