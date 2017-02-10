@@ -23,6 +23,11 @@ namespace Dynamo.Search.SearchElements
         public override string CreationName { get { return functionDescriptor != null ? functionDescriptor.MangledName : this.Name; } }
 
         /// <summary>
+        /// The name that is used for Web UI
+        /// </summary>
+        public override string FullyQualifiedName { get { return functionDescriptor != null ? functionDescriptor.QualifiedName : this.Name; } }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ZeroTouchSearchElement"/> class 
         /// with the DesignScript function description
         /// </summary>

@@ -37,6 +37,11 @@ namespace Dynamo.Search.SearchElements
         }
 
         /// <summary>
+        /// The name that is used during Web UI (This is the same as FullName of NodeSearchElement)
+        /// </summary>
+        public override string FullyQualifiedName { get { return FullCategoryName + "." + Name; } }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CustomNodeSearchElement"/> class.
         /// </summary>
         /// <param name="customNodeManager">Custom node manager</param>
