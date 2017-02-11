@@ -7,8 +7,7 @@
       "include": [
         "DSCore.Color",
         "DSCore.ColorRange2D",
-        "Core.View.Watch",
-        "Core.View.Watch Image"
+        "Core.View.Watch"
       ],
       "childElements": []
     },
