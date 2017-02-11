@@ -76,8 +76,13 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Core.List",
-            "DSCore.List"
+            "Core.List.List.Create",
+            "Core.List.Range",
+            "Core.List.Sequence",
+            "DSCore.List.Permutations",
+            "DSCore.List.Empty",
+            "DSCore.List.OfRepeatedItem",
+            "DSCore.List.Combinations"
           ]
         },
         {
