@@ -33,7 +33,9 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Tessellation"
+            "Tessellation.ConvexHull",
+            "Tessellation.Delaunay",
+            "Tessellation.Voronoi"
           ],
           "childElements": []
         },
