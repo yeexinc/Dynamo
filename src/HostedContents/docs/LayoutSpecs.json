@@ -1,8 +1,20 @@
 {
   "elements": [
     {
+      "text": "Display",
+      "iconName": "Category.Display",
+      "elementType": "category",
+      "include": [
+        "DSCore.Color",
+        "DSCore.ColorRange2D",
+        "Core.View.Watch",
+        "Core.View.Watch Image"
+      ],
+      "childElements": []
+    },
+    {
       "text": "Geometry",
-      "iconName": "Geometry",
+      "iconName": "Category.Geometry",
       "elementType": "category",
       "include": [],
       "childElements": [
