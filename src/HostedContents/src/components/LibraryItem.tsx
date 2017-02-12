@@ -50,19 +50,20 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         }
 
         let nestedElements = null;
+        let clusteredElements = null;
 
         if (this.state.expanded) // Show only nested elements when expanded.
         {
             if (this.props.data.childItems) {
                 if (this.props.data.childItems.some(this.isLeafItem)) {
                     // There are some leaf nodes (e.g. methods).
-                    nestedElements = this.getClusteredElements();
-                } else {
-                    // There are intermediate child items.
-                    nestedElements = this.getNestedElements();
+                    clusteredElements = this.getClusteredElements();
                 }
+
+                // There are intermediate child items.
+                nestedElements = this.getNestedElements();
             }
-        }        
+        }
 
         return (
             <div className={ this.getLibraryItemContainerStyle() }>
@@ -70,6 +71,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
                     { iconElement }
                     <div className={ libraryItemTextStyle }>{ this.props.data.text }</div>
                 </div>
+                { clusteredElements }
                 { nestedElements }
             </div>
         );
@@ -100,7 +102,17 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         return (
             <div className={ "LibraryItemBody" }>
             {
+                // 'getNestedElements' method is meant to render all other 
+                // types of items except ones of type creation/action/query.
+                // 
                 this.props.data.childItems.map((item: ItemData) => {
+                    if ((item.itemType == "creation") || 
+                        (item.itemType == "action") ||
+                        (item.itemType == "query"))
+                    {
+                        return null; // Not rendering these items.
+                    }
+
                     return (<LibraryItem key={ index++ } data={ item } />);
                 })
             }
