@@ -77,6 +77,59 @@ class LibraryItem {
     }
 }
 
+function constructNestedLibraryItems(
+    includeParts: string[],
+    typeListNode: TypeListNode,
+    inclusive: boolean): LibraryItem
+{
+    // 'includeParts' is always lesser or equal to 'fullNameParts' in length.
+    // 
+    // Take an example:
+    //      includeParts  = [ A, B, C ];
+    //      fullNameParts = [ A, B, C, D, E ];
+    // 
+    let fullyQualifiedName = typeListNode.fullyQualifiedName;
+    let fullNameParts: string[] = fullyQualifiedName.split('.');
+    if (includeParts.length > fullNameParts.length) {
+        throw new Error("Invalid input");
+    }
+
+    // If 'inclusive == true', then 'remainingParts = [ C, D, E ]', otherwise 
+    // 'remainingParts = [ D, E ]'.
+    // 
+    let skipCount = inclusive ? includeParts.length - 1 : includeParts.length;
+    let remainingParts: string[] = fullNameParts.slice(skipCount);
+
+    let parentItem: LibraryItem = null;
+    let rootLibraryItem: LibraryItem = null;
+    for (let i = 0; i < remainingParts.length; i++) {
+        let libraryItem = new LibraryItem();
+        libraryItem.text = remainingParts[i];
+
+        // If this is the leaf most level, copy all item information over.
+        if (i == remainingParts.length - 1) {
+            libraryItem.creationName = typeListNode.creationName;
+            libraryItem.iconName = typeListNode.iconName;
+            libraryItem.itemType = typeListNode.memberType;
+        }
+
+        if (parentItem) {
+            // If there was a parent item, insert the new 'libraryItem' under 
+            // it as a child item, then update 'parentItem' to be 'libraryItem'.
+            parentItem.appendChild(libraryItem);
+            parentItem = libraryItem;
+        } else {
+            // If there was not a parent item, that means this is the first 
+            // library item node that we create. Make it the rootLibraryItem
+            // and point 'parentItem' to it.
+            parentItem = libraryItem;
+            rootLibraryItem = libraryItem;
+        }
+    }
+
+    return rootLibraryItem;
+}
+
 /**
  * This method merges a type node (and its immediate sub nodes) under the given
  * library item.
@@ -93,7 +146,6 @@ class LibraryItem {
  * @param {LibraryItem} libraryItem
  * The library item under which a type node (and its sub nodes) is to be merged.
  */
-
 function constructLibraryItem(
     typeListNodes: TypeListNode[],
     layoutElement: LayoutElement): LibraryItem
