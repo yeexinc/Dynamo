@@ -2,7 +2,7 @@
   "elements": [
     {
       "text": "Display",
-      "iconName": "Category.Display",
+      "iconName": "Category.Display.svg",
       "elementType": "category",
       "include": [
         { "path": "DSCore.Color" },
@@ -23,7 +23,7 @@
     },
     {
       "text": "Geometry",
-      "iconName": "Category.Geometry",
+      "iconName": "Category.Geometry.svg",
       "elementType": "category",
       "include": [],
       "childElements": [
@@ -77,7 +77,7 @@
     },
     {
       "text": "List",
-      "iconName": "Category.List",
+      "iconName": "Category.List.svg",
       "elementType": "category",
       "include": [],
       "childElements": [

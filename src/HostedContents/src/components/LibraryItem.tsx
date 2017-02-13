@@ -65,7 +65,8 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
     render() {
 
-        let iconPath = "/src/resources/icons/" + this.props.data.iconName + ".png";
+        let iconPath = "/src/resources/icons/" + this.props.data.iconName;
+        if (!iconPath.endsWith(".svg")) { iconPath = iconPath + ".png"; }
 
         let iconElement = null;
         let libraryItemTextStyle = "LibraryItemGroupText";
