@@ -6,10 +6,20 @@
       "elementType": "category",
       "include": [
         { "path": "DSCore.Color" },
-        { "path": "DSCore.ColorRange2D" },
-        { "path": "Core.View.Watch" }
+        { "path": "DSCore.ColorRange2D" }
       ],
-      "childElements": []
+      "childElements": [
+        {
+          "text": "Watch",
+          "iconName": "Watch",
+          "elementType": "none",
+          "include":[
+            { "path": "Core.View.Watch" },
+            { "path": "Core.View.Watch Image" },
+            { "path": "Core.View.Watch 3D" }
+          ]
+        }
+      ]
     },
     {
       "text": "Geometry",
