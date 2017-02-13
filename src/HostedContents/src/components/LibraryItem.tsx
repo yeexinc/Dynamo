@@ -30,6 +30,32 @@ export class ItemData {
 export interface LibraryItemProps { data: ItemData }
 export interface LibraryItemState { expanded: boolean }
 
+class GroupedItems {
+
+    creations: ItemData[] = [];
+    actions: ItemData[] = [];
+    queries: ItemData[] = [];
+    others: ItemData[] = [];
+
+    constructor(items: ItemData[]) {
+
+        for (let i = 0; i < items.length; i++) {
+
+            switch(items[i].itemType) {
+                case "creation":    this.creations.push(items[i]);  break;
+                case "action":      this.actions.push(items[i]);    break;
+                case "query":       this.queries.push(items[i]);    break;
+                default:            this.others.push(items[i]);     break;
+            }
+        }
+    }
+
+    getCreationItems(): ItemData[] { return this.creations; }
+    getActionItems():   ItemData[] { return this.actions;   }
+    getQueryItems():    ItemData[] { return this.queries;   }
+    getOtherItems():    ItemData[] { return this.others;    }
+}
+
 export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemState> {
 
     constructor(props: LibraryItemProps) {
@@ -54,14 +80,16 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
 
         if (this.state.expanded) // Show only nested elements when expanded.
         {
-            if (this.props.data.childItems) {
-                if (this.props.data.childItems.some(this.isLeafItem)) {
-                    // There are some leaf nodes (e.g. methods).
-                    clusteredElements = this.getClusteredElements();
-                }
+            if (this.props.data.childItems && (this.props.data.childItems.length > 0)) {
+
+                // Break item list down into sub-lists based on the type of each item.
+                let groupedItems = new GroupedItems(this.props.data.childItems);
+
+                // There are some leaf nodes (e.g. methods).
+                clusteredElements = this.getClusteredElements(groupedItems);
 
                 // There are intermediate child items.
-                nestedElements = this.getNestedElements();
+                nestedElements = this.getNestedElements(groupedItems);
             }
         }
 
@@ -96,23 +124,12 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         return "LibraryItemContainerNone";
     }
 
-    groupItemsByType(items: ItemData[], c: ItemData[], a: ItemData[], q: ItemData[], n: ItemData[]): void {
+    getNestedElements(groupedItems: GroupedItems): any {
 
-        for (let i = 0; i < items.length; i++) {
-            switch(items[i].itemType) {
-                case "creation":    c.push(items[i]); break;
-                case "action":      a.push(items[i]); break;
-                case "query":       q.push(items[i]); break;
-                case "none":        n.push(items[i]); break;
-                
-                default:
-                    console.error("Unhandled item type: ", items[i].itemType);
-                    break;
-            }
+        let regularItems = groupedItems.getOtherItems();
+        if (regularItems.length <= 0) {
+            return null; // No item to be generated.
         }
-    }
-
-    getNestedElements(): any {
 
         let index = 0;
         return (
@@ -121,14 +138,7 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
                 // 'getNestedElements' method is meant to render all other 
                 // types of items except ones of type creation/action/query.
                 // 
-                this.props.data.childItems.map((item: ItemData) => {
-                    if ((item.itemType == "creation") || 
-                        (item.itemType == "action") ||
-                        (item.itemType == "query"))
-                    {
-                        return null; // Not rendering these items.
-                    }
-
+                regularItems.map((item: ItemData) => {
                     return (<LibraryItem key={ index++ } data={ item } />);
                 })
             }
@@ -136,12 +146,11 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         );
     }
 
-    getClusteredElements(): any {
+    getClusteredElements(groupedItems: GroupedItems): any {
         
-        let items = this.props.data.childItems;
-        let creationMethods = items.filter((item: ItemData) => item.itemType == "creation");
-        let actionMethods = items.filter((item: ItemData) => item.itemType == "action");
-        let queryMethods = items.filter((item: ItemData) => item.itemType == "query");
+        let creationMethods = groupedItems.getCreationItems();
+        let actionMethods   = groupedItems.getActionItems();
+        let queryMethods    = groupedItems.getQueryItems();
 
         let creationCluster = null;
         if (creationMethods.length > 0) {
@@ -167,6 +176,10 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
                 childItems={ queryMethods } />);
         }
 
+        if ((!creationCluster) && (!actionCluster) && (!queryCluster)) {
+            return null; // No cluster should be generated.
+        }
+
         return (
             <div className={ "LibraryItemBody" }>
                 { creationCluster }
@@ -174,12 +187,6 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
                 { queryCluster }
             </div>
         );
-    }
-
-    isLeafItem(item: ItemData): boolean {
-        return ((item.itemType == "creation") || 
-                (item.itemType == "action") ||
-                (item.itemType == "query"));
     }
 
     onLibraryItemClicked() {
