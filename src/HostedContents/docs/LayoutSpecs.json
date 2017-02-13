@@ -5,9 +5,9 @@
       "iconName": "Category.Display",
       "elementType": "category",
       "include": [
-        "DSCore.Color",
-        "DSCore.ColorRange2D",
-        "Core.View.Watch"
+        { "path": "DSCore.Color" },
+        { "path": "DSCore.ColorRange2D" },
+        { "path": "Core.View.Watch" }
       ],
       "childElements": []
     },
@@ -22,9 +22,9 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Autodesk.DesignScript.Geometry.BoundingBox",
-            "Autodesk.DesignScript.Geometry.CoordinateSystem",
-            "Autodesk.DesignScript.Geometry.Vector"
+            { "path": "Autodesk.DesignScript.Geometry.BoundingBox" },
+            { "path": "Autodesk.DesignScript.Geometry.CoordinateSystem" },
+            { "path": "Autodesk.DesignScript.Geometry.Vector" }
           ],
           "childElements": []
         },
@@ -33,9 +33,9 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Tessellation.ConvexHull",
-            "Tessellation.Delaunay",
-            "Tessellation.Voronoi"
+            { "path": "Tessellation.ConvexHull" },
+            { "path": "Tessellation.Delaunay" },
+            { "path": "Tessellation.Voronoi" }
           ],
           "childElements": []
         },
@@ -44,8 +44,8 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Autodesk.DesignScript.Geometry.Point",
-            "Autodesk.DesignScript.Geometry.UV"
+            { "path": "Autodesk.DesignScript.Geometry.Point" },
+            { "path": "Autodesk.DesignScript.Geometry.UV" }
           ],
           "childElements": []
         },
@@ -54,12 +54,12 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Autodesk.DesignScript.Geometry.Arc",
-            "Autodesk.DesignScript.Geometry.Circle",
-            "Autodesk.DesignScript.Geometry.Curve",
-            "Autodesk.DesignScript.Geometry.Ellipse",
-            "Autodesk.DesignScript.Geometry.EllipseArc",
-            "Autodesk.DesignScript.Geometry.Line"
+            { "path": "Autodesk.DesignScript.Geometry.Arc" },
+            { "path": "Autodesk.DesignScript.Geometry.Circle" },
+            { "path": "Autodesk.DesignScript.Geometry.Curve" },
+            { "path": "Autodesk.DesignScript.Geometry.Ellipse" },
+            { "path": "Autodesk.DesignScript.Geometry.EllipseArc" },
+            { "path": "Autodesk.DesignScript.Geometry.Line" }
           ],
           "childElements": []
         }
@@ -76,13 +76,13 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "Core.List.List.Create",
-            "Core.List.Range",
-            "Core.List.Sequence",
-            "DSCore.List.Permutations",
-            "DSCore.List.Empty",
-            "DSCore.List.OfRepeatedItem",
-            "DSCore.List.Combinations"
+            { "path": "Core.List.List.Create" },
+            { "path": "Core.List.Range" },
+            { "path": "Core.List.Sequence" },
+            { "path": "DSCore.List.Permutations" },
+            { "path": "DSCore.List.Empty" },
+            { "path": "DSCore.List.OfRepeatedItem" },
+            { "path": "DSCore.List.Combinations" }
           ]
         },
         {
@@ -90,15 +90,15 @@
           "iconName": "",
           "elementType": "group",
           "include": [
-            "AllFalse",
-            "AllTrue",
-            "IsHomogeneous",
-            "IsRectangular",
-            "IsUniformDepth",
-            "SetDifference",
-            "SetIntersection",
-            "TrueForAll",
-            "TrueForAny"
+            { "path": "AllFalse" },
+            { "path": "AllTrue" },
+            { "path": "IsHomogeneous" },
+            { "path": "IsRectangular" },
+            { "path": "IsUniformDepth" },
+            { "path": "SetDifference" },
+            { "path": "SetIntersection" },
+            { "path": "TrueForAll" },
+            { "path": "TrueForAny" }
           ]
         }
       ]
