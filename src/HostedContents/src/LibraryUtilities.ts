@@ -49,26 +49,12 @@ class LayoutElement {
 
 class LibraryItem {
 
-    text: string = "";
     iconName: string = "";
     creationName: string = "";
     itemType: ItemType = "none";
     childItems: LibraryItem[] = [];
 
-    constructor() {
-    }
-
-    constructMethod(listNode: TypeListNode) {
-        this.text = listNode.fullyQualifiedName.split('.').pop();
-        this.iconName = listNode.iconName;
-        this.itemType = listNode.memberType;
-    }
-
-    constructClass(name: string) {
-        let n = name.split('.').pop(); // E.g. Only 'BoundingBox' will be taken from Autodesk.DesignScript.Geometry.BoundingBox
-        this.text = n;
-        this.iconName = n;
-        this.itemType = "none";
+    constructor(public text: string) {
     }
 
     constructFromLayoutElement(layoutElement: LayoutElement) {
@@ -117,8 +103,7 @@ function constructNestedLibraryItems(
 
     let rootLibraryItem: LibraryItem = parentItem;
     for (let i = startIndex; i < fullNameParts.length; i++) {
-        let libraryItem = new LibraryItem();
-        libraryItem.text = fullNameParts[i];
+        let libraryItem = new LibraryItem(fullNameParts[i]);
         libraryItem.itemType = "none";
 
         // If 'i' is now '2' (i.e. it points to 'C'), then we will construct 
@@ -171,7 +156,7 @@ function constructLibraryItem(
     typeListNodes: TypeListNode[],
     layoutElement: LayoutElement): LibraryItem
 {
-    let result = new LibraryItem();
+    let result = new LibraryItem(layoutElement.text);
     result.constructFromLayoutElement(layoutElement);
 
     // Traverse through the strings in 'include'
