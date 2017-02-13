@@ -18,12 +18,17 @@ class TypeListNode {
     }
 }
 
+interface IncludeInfo {
+    path: string;
+    inclusive?: boolean;
+}
+
 class LayoutElement {
 
     text: string = "";
     iconName: string = "";
     elementType: ElementType = "none";
-    include: string[] = [];
+    include: IncludeInfo[] = [];
     childElements: LayoutElement[] = [];
 
     constructor(data: any) {
@@ -80,7 +85,8 @@ class LibraryItem {
 function constructNestedLibraryItems(
     includeParts: string[],
     typeListNode: TypeListNode,
-    inclusive: boolean): LibraryItem
+    inclusive: boolean,
+    parentItem: LibraryItem): LibraryItem
 {
     // 'includeParts' is always lesser or equal to 'fullNameParts' in length.
     // 
@@ -94,20 +100,35 @@ function constructNestedLibraryItems(
         throw new Error("Invalid input");
     }
 
-    // If 'inclusive == true', then 'remainingParts = [ C, D, E ]', otherwise 
-    // 'remainingParts = [ D, E ]'.
+    // If 'inclusive == true', then for the above example we start building 
+    // LibraryItem from 'C' onward, otherwise it starts from 'D'.
     // 
-    let skipCount = inclusive ? includeParts.length - 1 : includeParts.length;
-    let remainingParts: string[] = fullNameParts.slice(skipCount);
+    let startIndex = inclusive ? includeParts.length - 1 : includeParts.length;
 
-    let parentItem: LibraryItem = null;
-    let rootLibraryItem: LibraryItem = null;
-    for (let i = 0; i < remainingParts.length; i++) {
+    // Starting index may optionally include the first item in the case when 
+    // 'inclusive = true'. If 'parentItem != null && inclusive == true', then 
+    // the 'parentItem' is already created in a previous iteration, so we will 
+    // continue to append child items under 'parentItem' without recreating 
+    // a new LibraryItem from 'remainingParts[0]'.
+    // 
+    if (inclusive && parentItem) {
+        startIndex = startIndex + 1;
+    }
+
+    let rootLibraryItem: LibraryItem = parentItem;
+    for (let i = startIndex; i < fullNameParts.length; i++) {
         let libraryItem = new LibraryItem();
-        libraryItem.text = remainingParts[i];
+        libraryItem.text = fullNameParts[i];
+        libraryItem.itemType = "none";
+
+        // If 'i' is now '2' (i.e. it points to 'C'), then we will construct 
+        // the iconName as 'A.B.C'. And since the second parameter of 'slice' 
+        // is exclusive, we add '1' to it otherwise 'C' won't be included.
+        //  
+        libraryItem.iconName = fullNameParts.slice(0, i + 1).join(".");
 
         // If this is the leaf most level, copy all item information over.
-        if (i == remainingParts.length - 1) {
+        if (i == fullNameParts.length - 1) {
             libraryItem.creationName = typeListNode.creationName;
             libraryItem.iconName = typeListNode.iconName;
             libraryItem.itemType = typeListNode.memberType;
@@ -155,20 +176,37 @@ function constructLibraryItem(
 
     // Traverse through the strings in 'include'
     for (let i = 0; i < layoutElement.include.length; i++) {
-        let newClass = new LibraryItem();
-        newClass.constructClass(layoutElement.include[i]);
 
-        // Traverse through each node in typeListNodes (from RawTypeData.json)
+        let includePath = layoutElement.include[i].path;
+        let includeParts = includePath.split('.');
+
+        let inclusive = true; // If not specified, inclusive by default.
+        if (layoutElement.include[i].inclusive) {
+            inclusive = layoutElement.include[i].inclusive;
+        }
+
+        // If inclusive, then a new root node will be created (in the first iteration 
+        // of 'j' below, and reused subsequently for all other 'j'), otherwise use the 
+        // current 'result' as the parent node for child nodes to be appended.
+        // 
+        let parentNode = inclusive ? null : result;
+
         for (let j = 0; j < typeListNodes.length; j++) {
 
-            // Check if the names contain the included strings
-            if (typeListNodes[j].fullyQualifiedName.startsWith(layoutElement.include[i])) {
-                let newMethod = new LibraryItem(); 
-                newMethod.constructMethod(typeListNodes[j]);
-                newClass.appendChild(newMethod);
+            let fullyQualifiedName = typeListNodes[j].fullyQualifiedName;
+            if (!fullyQualifiedName.startsWith(includePath)) {
+                continue; // Not matching, skip to the next type node.
             }
+
+            parentNode = constructNestedLibraryItems(includeParts,
+                typeListNodes[j], inclusive, parentNode);
         }
-        result.appendChild(newClass);
+
+        if (parentNode && (parentNode != result)) {
+            // If a new parent node was created, append it as a child of 
+            // the current resulting node.
+            result.appendChild(parentNode);
+        }
     }
 
     // Construct all child library items from child layout elements.
