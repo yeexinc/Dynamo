@@ -96,6 +96,22 @@ export class LibraryItem extends React.Component<LibraryItemProps, LibraryItemSt
         return "LibraryItemContainerNone";
     }
 
+    groupItemsByType(items: ItemData[], c: ItemData[], a: ItemData[], q: ItemData[], n: ItemData[]): void {
+
+        for (let i = 0; i < items.length; i++) {
+            switch(items[i].itemType) {
+                case "creation":    c.push(items[i]); break;
+                case "action":      a.push(items[i]); break;
+                case "query":       q.push(items[i]); break;
+                case "none":        n.push(items[i]); break;
+                
+                default:
+                    console.error("Unhandled item type: ", items[i].itemType);
+                    break;
+            }
+        }
+    }
+
     getNestedElements(): any {
 
         let index = 0;
