@@ -153,7 +153,7 @@ namespace DSOffice
         }
     }
 
-    public static class Excel
+    public static class Data
     {
         /// <summary>
         /// Reads the given Excel file and returns a workbook
@@ -270,7 +270,7 @@ namespace DSOffice
         /// <param name="readAsStrings">toggle to switch between reading Excel file as strings only or not</param>
         /// <returns name="data">Rows of data from the Excel worksheet.</returns>
         /// <search>office,excel,spreadsheet,ifequalreturnindex</search>
-        public static object[][] ReadFromFile(FileInfo file, string sheetName, bool readAsStrings = false)
+        public static object[][] ImportExcel(FileInfo file, string sheetName, bool readAsStrings = false)
         {
             WorkBook wb = WorkBook.ReadExcelFile(file.FullName);
             WorkSheet ws = wb.GetWorksheetByName(sheetName);
@@ -283,7 +283,7 @@ namespace DSOffice
         [NodeObsolete("ReadObsolete", typeof(Properties.Resources))]
         public static object[][] Read(string filePath, string sheetName)
         {
-            return ReadFromFile(new FileInfo(filePath), sheetName);
+            return ImportExcel(new FileInfo(filePath), sheetName);
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace DSOffice
         /// <param name="overWrite"></param>
         /// <returns name="data">Data written to the spreadsheet.</returns>
         /// <search>office,excel,spreadsheet</search>
-        public static object[][] WriteToFile(string filePath, string sheetName, int startRow, int startCol, object[][] data, bool overWrite = false)
+        public static object[][] ExportExcel(string filePath, string sheetName, int startRow, int startCol, object[][] data, bool overWrite = false)
         {
             WorkBook wb = new WorkBook(filePath);
             WorkSheet ws = new WorkSheet(wb, sheetName, overWrite);

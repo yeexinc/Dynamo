@@ -283,7 +283,7 @@ namespace Dynamo.Tests
 
             // remap the filename as Excel requires an absolute path
             filename.Value = filename.Value.Replace(@"..\..\..\test", TestDirectory);
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
             ViewModel.HomeSpace.Run();
             var data = new object[] { new object[] { 4 }, new object[] { 5 }, new object[] { 6 }, new object[] { 7 }, new object[] { 8 }, new object[] { 9 }, new object[] { 10 } };
             AssertPreviewValue(watch.GUID.ToString(), data);
@@ -306,10 +306,10 @@ namespace Dynamo.Tests
             stringNode.Value = filePath;
 
             // watch displays the data from the Read node
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
 
             // writeNode should have the same data contained in watch
-            var writeNode = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.WriteToFile");
+            var writeNode = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ExportExcel");
 
             ViewModel.HomeSpace.Run();
 
@@ -341,7 +341,7 @@ namespace Dynamo.Tests
 
             ViewModel.HomeSpace.Run();
             
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
             var excelFileName = ViewModel.Model.CurrentWorkspace.NodeFromWorkspace("b9b04f1f-9069-4eaf-a31c-eee7428aacab");
             var FileObject = ViewModel.Model.CurrentWorkspace.NodeFromWorkspace("1bd2c2da-b0e9-4b88-9f9e-33bd0906c6e9");
             
@@ -398,7 +398,7 @@ namespace Dynamo.Tests
             filename.Value = filename.Value.Replace(@"..\..\..\test", TestDirectory);
 
             // watch displays the data from the Read node
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
             
             ViewModel.HomeSpace.Run();
 
@@ -423,7 +423,7 @@ namespace Dynamo.Tests
             filename.Value = filename.Value.Replace(@"..\..\..\test", TestDirectory);
 
             // watch displays the data from the Read node
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
 
             ViewModel.HomeSpace.Run();
 
@@ -1099,8 +1099,8 @@ namespace Dynamo.Tests
             filename.Value = filename.Value.Replace(@"..\..\..\test", TestDirectory);
 
             ViewModel.HomeSpace.Run();
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
-            var watch2 = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.WriteToFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
+            var watch2 = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ExportExcel");
             // Write {5,6,7,8,9,10} into excel
             var watch3 = ViewModel.Model.CurrentWorkspace.NodeFromWorkspace("17bf44dd-0285-496f-a388-58649cadbff8");
             Assert.IsTrue(watch.CachedValue.IsCollection);
@@ -1145,7 +1145,7 @@ namespace Dynamo.Tests
             Assert.AreEqual(3, list.Count);
             AssertPreviewValue(writeNode.GUID.ToString(), new object[] { new object[] { 1 }, new object[] { 2 }, new object[] { 3 } });
 
-            var wb = Excel.ReadExcelFile(filename.Value);
+            var wb = Data.ReadExcelFile(filename.Value);
             Assert.IsTrue(wb.WorkSheets.Length == 1);
         }
 
@@ -1202,8 +1202,8 @@ namespace Dynamo.Tests
         [Test]
         public void WriteIntoExcelVerify()
         {
-            // Write Into Excel sheet using WriteToFile
-            // Read Using ReadFromFile and verify the values are written correctly into Excel.
+            // Write Into Excel sheet using ExportExcel
+            // Read Using ImportExcel and verify the values are written correctly into Excel.
 
             string testDir = TestDirectory;
             string openPath = Path.Combine(testDir, @"core\excel\WriteFile.dyn");
@@ -1219,7 +1219,7 @@ namespace Dynamo.Tests
             Assert.AreEqual(7, ViewModel.CurrentSpace.Nodes.Count());
             ViewModel.HomeSpace.Run();
             //Write into Excel - {5,6,7,8,9,10}
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.WriteToFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ExportExcel");
             Assert.IsTrue(watch.CachedValue.IsCollection);
             
             var data = new object[] { new object[] { 5 }, new object[] { 6 }, new object[] { 7 }, new object[] { 8 }, new object[] { 9 }, new object[] { 10 } };
@@ -1256,7 +1256,7 @@ namespace Dynamo.Tests
             // remap the filename as Excel requires an absolute path
             filename.Value = filename.Value.Replace(@"..\..\..\test", testDir);
             ViewModel.HomeSpace.Run();
-            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Excel.ReadFromFile");
+            var watch = ViewModel.Model.CurrentWorkspace.GetDSFunctionNodeFromWorkspace("Data.ImportExcel");
             Assert.IsTrue(watch.CachedValue.IsCollection);
             var data2 = new object[] { new object[] { 1 }, new object[] { 2 }, new object[] { 3 }, new object[] { null }, new object[] { 6 } };
             AssertPreviewValue(watch.GUID.ToString(), data2);
