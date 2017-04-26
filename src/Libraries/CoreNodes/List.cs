@@ -1224,10 +1224,12 @@ namespace DSCore
         }
         
         /// <summary>
-        ///     Flattens a nested list of lists by a certain amount.
+        ///     Flattens a nested list of lists by a certain amount. By default,
+        ///     the input list is flattened completely.
         /// </summary>
         /// <param name="list">List to flatten.</param>
-        /// <param name="amt">Layers of nesting to remove.</param>
+        /// <param name="amt">Layers of nesting to remove. By default, the list
+        /// is flattened completely.</param>
         public static IList Flatten(IList list, int amt = -1)
         {
             if (amt < 0)
